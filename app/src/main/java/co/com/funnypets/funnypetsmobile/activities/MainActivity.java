@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                     mTextMessage.setText(R.string.title_dashboard);
                     return true;
                 case R.id.navigation_notifications:
-                    
+
                     Intent intent;
                     intent = new Intent(MainActivity.this, ProfileActivity.class);
                     startActivity(intent);

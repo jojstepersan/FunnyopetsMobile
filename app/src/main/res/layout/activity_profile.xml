@@ -23,11 +23,13 @@
                 android:layout_height="150dp"
                 android:src="@drawable/imagen1"/>
             <TextView
+                android:id="@+id/nombre_perfil"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center_horizontal"
+                android:text="text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mario Herrera"
+
                 android:textColor="#fff"
                 android:textStyle="bold"
                 android:textSize="21sp"/>
