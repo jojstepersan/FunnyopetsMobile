@@ -19,18 +19,21 @@
             android:label="@string/title_activity_login">
 
         </activity>
-        <activity android:name=".activities.RegisterActivity" />
+        <activity android:name=".activities.RegisterActivity"
+            android:label="@string/register"/>
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_main" />
-        <activity android:name=".activities.ProfileActivity" android:theme="@style/AppTheme.NoActionBar">
 
+
+
+        <activity android:name=".activities.ProfileActivity" android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+    </application>
 </manifest>

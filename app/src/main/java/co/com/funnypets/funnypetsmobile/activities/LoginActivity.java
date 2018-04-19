@@ -117,6 +117,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        Button eRegisterBotton=(Button)findViewById(R.id.btn_register);
+        eRegisterBotton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
@@ -132,6 +140,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
                         Toast.makeText(LoginActivity.this, "sing in problem", Toast.LENGTH_LONG).show();
+                    }else{
+
+
                     }
                 }
             });
