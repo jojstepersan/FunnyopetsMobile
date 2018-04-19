@@ -1,0 +1,50 @@
+package co.com.funnypets.funnypetsmobile.activities;
+
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.List;
+
+import co.com.funnypets.funnypetsmobile.R;
+
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+        private ImageView foto;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            foto= (ImageView)itemView.findViewById(R.id.imageView_id);
+        }
+    }
+
+    public List<PhotoModel> photoList;
+
+    public RecyclerViewAdapter(List<PhotoModel> photoList) {
+        this.photoList = photoList;
+    }
+
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_photo,parent,false);
+
+    ViewHolder viewHolder= new ViewHolder(view);
+    return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.foto.setImageResource(photoList.get(position).getFoto());
+    }
+
+    @Override
+    public int getItemCount() {
+        return photoList.size();
+    }
+}
