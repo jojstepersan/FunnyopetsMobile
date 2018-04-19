@@ -30,8 +30,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import co.com.funnypets.funnypetsmobile.R;
+import co.com.funnypets.funnypetsmobile.entities.Usuario;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -39,17 +42,21 @@ public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "RegisterActivity";
     private FirebaseAuth mAuth;
-
+    private DatabaseReference databaseReference;
+    private FirebaseUser  currentUser=FirebaseAuth.getInstance().getCurrentUser();
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9001;
     private AutoCompleteTextView mEmailView;
+    private AutoCompleteTextView mUsernameView;
     private EditText mPasswordView;
+    Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mUsernameView=(AutoCompleteTextView)findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
         Button mRegister=(Button)findViewById(R.id.btn_register);
         Button mSingInGoogle=(Button)findViewById(R.id.btn_sing_up_google);
@@ -58,6 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        databaseReference= FirebaseDatabase.getInstance().getReference();
         mAuth=FirebaseAuth.getInstance();
         mRegister.setOnClickListener(new OnClickListener() {
             @Override
@@ -71,13 +79,19 @@ public class RegisterActivity extends AppCompatActivity {
                 signIn();
             }
         });
+        usuario=new Usuario();
     }
 
     public void  createNewUser(){
         String email=mEmailView.getText().toString();
         String password=mPasswordView.getText().toString();
-        String passConfirm;
-        String userName;
+        String passConfirm="";
+        String userName=mUsernameView.getText().toString();
+
+        usuario.setCorreo(email);
+        usuario.setUsuario(userName);
+        usuario.setPassword(password);
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -86,6 +100,8 @@ public class RegisterActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            Toast.makeText(RegisterActivity.this,user.getUid(),Toast.LENGTH_LONG).show();
+                            databaseReference.child("usuario").child(user.getUid()).push().setValue(usuario);
                             startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
                           //  updateUI(user);
                         } else {
