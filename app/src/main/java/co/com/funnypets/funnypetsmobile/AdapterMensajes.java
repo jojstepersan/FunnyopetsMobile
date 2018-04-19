@@ -1,4 +1,4 @@
-package co.com.funnypets.funnypetsmobile.activities;
+package co.com.funnypets.funnypetsmobile;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import co.com.funnypets.funnypetsmobile.R;
+import co.com.funnypets.funnypetsmobile.entities.MensajeRecibir;
 
 /**
  * Created by user on 04/09/2017. 04

@@ -1,4 +1,4 @@
-package co.com.funnypets.funnypetsmobile.activities;
+package co.com.funnypets.funnypetsmobile;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

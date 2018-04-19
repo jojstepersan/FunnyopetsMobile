@@ -37,8 +37,11 @@ public class MainActivity extends AppCompatActivity {
                     intent1 = new Intent(MainActivity.this, MainActivity.class);
                     startActivity(intent1);
                     return true;
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
+                case R.id.ic_circle:
+                    Intent intent2;
+                    intent2 = new Intent(MainActivity.this, ChatActivity.class);
+                    startActivity(intent2);
+
                     return true;
                 case R.id.ic_android:
                     
