@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,8 +17,11 @@ import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
+
+
 
     private TextView mTextMessage;
     private FirebaseAuth mAuth;
@@ -28,14 +32,23 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
+                case R.id.ic_house:
+
+                    Intent intent1;
+                    intent1 = new Intent(MainActivity.this, MainActivity.class);
+                    startActivity(intent1);
                     return true;
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
+                case R.id.ic_circle:
+                    Intent intent2;
+                    intent2 = new Intent(MainActivity.this, ChatActivity.class);
+                    startActivity(intent2);
+
                     return true;
-                case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
+                case R.id.ic_android:
+                    
+                    Intent intent;
+                    intent = new Intent(MainActivity.this, ProfileActivity.class);
+                    startActivity(intent);
                     return true;
             }
             return false;
@@ -46,9 +59,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mTextMessage = (TextView) findViewById(R.id.message);
         mAuth=FirebaseAuth.getInstance();
+        FirebaseUser user=mAuth.getCurrentUser();
+        Log.d("idUsuario",user.getUid());
         Button mSingout=(Button)findViewById(R.id.btn_sing_out);
         mSingout.setOnClickListener(new OnClickListener() {
             @Override
@@ -58,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this,"sing out!!",Toast.LENGTH_LONG).show();
             }
         });
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottomNavViewBar);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 

@@ -140,6 +140,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
                         Toast.makeText(LoginActivity.this, "sing in problem", Toast.LENGTH_LONG).show();
+                    }else{
+
+
                     }
                 }
             });
