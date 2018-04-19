@@ -1,4 +1,4 @@
-package co.com.funnypets.funnypetsmobile.activities;
+package co.com.funnypets.funnypetsmobile.activities.entities;
 
 public class Post {
 

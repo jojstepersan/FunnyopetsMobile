@@ -1,5 +1,6 @@
-package co.com.funnypets.funnypetsmobile.activities;
+package co.com.funnypets.funnypetsmobile.activities.activities;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -10,16 +11,27 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 
+
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import co.com.funnypets.funnypetsmobile.R;
+import co.com.funnypets.funnypetsmobile.activities.adapters.PhotosAdapter;
+import co.com.funnypets.funnypetsmobile.activities.entities.Post;
+import co.com.funnypets.funnypetsmobile.activities.entities.User;
 
 
 public class otherPerfilActivity extends AppCompatActivity {
@@ -27,6 +39,8 @@ public class otherPerfilActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private PhotosAdapter adapter;
     private List<Post> albumList;
+    private User usuario;
+    private String img="IMG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +48,19 @@ public class otherPerfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_otherperfil);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Intent intent= getIntent();
+        Bundle b =intent.getExtras();
+        String userid=b.getString("ID");
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        final DatabaseReference myRef = database.getReference("Usuarios");
+        final DatabaseReference myRefid = myRef.child(userid);
+      //final DatabaseReference myRefidpost = myRefid.child("post");
+
+
+
 
         initCollapsingToolbar();
 
@@ -78,7 +105,7 @@ public class otherPerfilActivity extends AppCompatActivity {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbar.setTitle("Mariand Castrejon Castañeda");
+                    collapsingToolbar.setTitle(usuario.getUsername());
                     isShow = true;
                 } else if (isShow) {
                     collapsingToolbar.setTitle(" ");
@@ -174,6 +201,10 @@ public class otherPerfilActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+        usuario = dataSnapshot.getValue(User.class);
     }
 
     /**
