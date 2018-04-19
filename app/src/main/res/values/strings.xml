@@ -28,6 +28,10 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="action_add_favourite">Agregar a favoritos</string>
+    <string name="action_play_next">Siguiente canción</string>
+    <string name="backdrop_title">Música para el momento</string>
+    <string name="backdrop_subtitle">Los mejores 20</string>
 
     <string name="funny_pest">FunnyPets</string>
 </resources>
