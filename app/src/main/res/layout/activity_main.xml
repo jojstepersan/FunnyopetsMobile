@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="co.com.funnypets.funnypetsmobile.activities.MainActivity">
+
+
     <FrameLayout
         android:id="@+id/fragmento_activity_main"
         android:layout_width="match_parent"
