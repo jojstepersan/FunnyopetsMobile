@@ -23,7 +23,7 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_main" />
-        <activity android:name=".activities.ProfileActivity">
+        <activity android:name=".activities.ProfileActivity" android:theme="@style/AppTheme.NoActionBar">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
