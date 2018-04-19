@@ -20,6 +20,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
+
+
     private TextView mTextMessage;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -29,14 +31,23 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
+                case R.id.ic_house:
+
+                    Intent intent1;
+                    intent1 = new Intent(MainActivity.this, MainActivity.class);
+                    startActivity(intent1);
                     return true;
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
+                case R.id.ic_circle:
+                    Intent intent2;
+                    intent2 = new Intent(MainActivity.this, ChatActivity.class);
+                    startActivity(intent2);
+
                     return true;
-                case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
+                case R.id.ic_android:
+                    
+                    Intent intent;
+                    intent = new Intent(MainActivity.this, ProfileActivity.class);
+                    startActivity(intent);
                     return true;
             }
             return false;
@@ -60,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this,"sing out!!",Toast.LENGTH_LONG).show();
             }
         });
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottomNavViewBar);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
