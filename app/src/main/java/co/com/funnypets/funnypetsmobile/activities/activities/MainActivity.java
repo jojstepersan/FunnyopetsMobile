@@ -1,4 +1,4 @@
-package co.com.funnypets.funnypetsmobile.activities;
+package co.com.funnypets.funnypetsmobile.activities.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import co.com.funnypets.funnypetsmobile.R;
+
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
