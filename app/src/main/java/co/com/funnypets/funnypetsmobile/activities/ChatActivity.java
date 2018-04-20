@@ -27,7 +27,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import co.com.funnypets.funnypetsmobile.AdapterMensajes;
+import co.com.funnypets.funnypetsmobile.adapters.AdapterMensajes;
 import co.com.funnypets.funnypetsmobile.R;
 import co.com.funnypets.funnypetsmobile.entities.MensajeEnviar;
 import co.com.funnypets.funnypetsmobile.entities.MensajeRecibir;
@@ -73,7 +73,7 @@ public class ChatActivity extends AppCompatActivity {
         LinearLayoutManager l = new LinearLayoutManager(this);
         rvMensajes.setLayoutManager(l);
         rvMensajes.setAdapter(adapter);
-mAuth= FirebaseAuth.getInstance();
+        mAuth= FirebaseAuth.getInstance();
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
