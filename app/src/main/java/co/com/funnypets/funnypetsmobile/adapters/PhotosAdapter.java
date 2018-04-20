@@ -1,4 +1,4 @@
-package co.com.funnypets.funnypetsmobile.activities.adapters;
+package co.com.funnypets.funnypetsmobile.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.PopupMenu;
@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import co.com.funnypets.funnypetsmobile.R;
-import co.com.funnypets.funnypetsmobile.activities.entities.Post;
+import co.com.funnypets.funnypetsmobile.entities.Post;
 
 
 /**

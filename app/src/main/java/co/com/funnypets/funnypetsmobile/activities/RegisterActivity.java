@@ -1,4 +1,4 @@
-package co.com.funnypets.funnypetsmobile.activities.activities;
+package co.com.funnypets.funnypetsmobile.activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;

@@ -1,4 +1,4 @@
-package co.com.funnypets.funnypetsmobile.activities.activities;
+package co.com.funnypets.funnypetsmobile.activities;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -29,9 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.com.funnypets.funnypetsmobile.R;
-import co.com.funnypets.funnypetsmobile.activities.adapters.PhotosAdapter;
-import co.com.funnypets.funnypetsmobile.activities.entities.Post;
-import co.com.funnypets.funnypetsmobile.activities.entities.User;
+import co.com.funnypets.funnypetsmobile.adapters.PhotosAdapter;
+import co.com.funnypets.funnypetsmobile.entities.Usuario;
+import co.com.funnypets.funnypetsmobile.entities.Post;
 
 
 public class otherPerfilActivity extends AppCompatActivity {
@@ -39,7 +39,7 @@ public class otherPerfilActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private PhotosAdapter adapter;
     private List<Post> albumList;
-    private User usuario;
+    private Usuario usuario;
     private String img="IMG";
 
     @Override
@@ -78,7 +78,7 @@ public class otherPerfilActivity extends AppCompatActivity {
         prepareAlbums();
 
         try {
-            Glide.with(this).load(R.drawable.profile).into((ImageView) findViewById(R.id.backdrop));
+            Glide.with(this).load(R.drawable.profile2).into((ImageView) findViewById(R.id.backdrop));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -105,7 +105,7 @@ public class otherPerfilActivity extends AppCompatActivity {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbar.setTitle(usuario.getUsername());
+                    collapsingToolbar.setTitle(usuario.getUsuario());
                     isShow = true;
                 } else if (isShow) {
                     collapsingToolbar.setTitle(" ");
@@ -204,7 +204,7 @@ public class otherPerfilActivity extends AppCompatActivity {
     }
 
     public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-        usuario = dataSnapshot.getValue(User.class);
+        usuario = dataSnapshot.getValue(Usuario.class);
     }
 
     /**
