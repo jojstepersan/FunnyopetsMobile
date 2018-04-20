@@ -26,6 +26,16 @@
             app:expandedTitleTextAppearance="@android:color/transparent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+            <Button
+                android:id="@+id/edit_profile_button"
+                android:layout_width="28dp"
+                android:layout_height="26dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/ic_settings_black_24dp"
+                android:translationZ="7dp" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="237dp"
@@ -57,7 +67,7 @@
                         android:layout_height="wrap_content"
                         android:text="Profile"
                         android:textAlignment="center"
-                        android:textColor="@color/almost_white"
+                        android:textColor="@color/white"
                         android:textSize="30sp" />
 
 

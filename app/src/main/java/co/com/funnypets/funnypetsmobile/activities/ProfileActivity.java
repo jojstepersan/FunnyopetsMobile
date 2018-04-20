@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,6 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView ctnfo;
     private TextView nombre;
     private ImageView foto;
+    private Button editProfile;
 
 
     @Override
@@ -63,6 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
         ctnfo=findViewById(R.id.cntfollowers);
         nombre=findViewById(R.id.love_music);
         foto=findViewById(R.id.backdrop);
+        editProfile=findViewById(R.id.edit_profile_button);
 
 
         //   Intent intent= getIntent();
@@ -83,7 +86,13 @@ public class ProfileActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent d = new Intent(ProfileActivity.this,EditProfile.class);
+                startActivity(d);
+            }
+        });
         prepareAlbums();
 
         try {
