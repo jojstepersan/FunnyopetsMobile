@@ -1,4 +1,4 @@
-package co.com.funnypets.funnypetsmobile.activities.activities;
+package co.com.funnypets.funnypetsmobile.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
