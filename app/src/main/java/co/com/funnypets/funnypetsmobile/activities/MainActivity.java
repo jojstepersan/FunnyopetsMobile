@@ -51,6 +51,11 @@ public class MainActivity extends AppCompatActivity {
                     intent = new Intent(MainActivity.this, ProfileActivity.class);
                     startActivity(intent);
                     return true;
+                case R.id.ic_search:
+                    Intent intent3;
+                    intent3 = new Intent(MainActivity.this, SearchActivity.class);
+                    startActivity(intent3);
+                    return true;
             }
             return false;
         }
