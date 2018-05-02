@@ -20,7 +20,15 @@
 
             <include layout="@layout/layout_top_tabs"/>
 
+
+
+
+
         </RelativeLayout>
+
+
+
+
 
         <!-- Middle section (body) -->
         <RelativeLayout
@@ -29,21 +37,31 @@
             android:id="@+id/relLayout2"
             android:layout_below="@+id/relLayout1">
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvPublicaciones"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+            </android.support.v7.widget.RecyclerView>
+
+
             <include layout="@layout/layout_center_viewpager"/>
 
 
-        </RelativeLayout>
 
+
+        </RelativeLayout>
 
 
         <Button
             android:id="@+id/btn_sing_out"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_alignParentTop="true"
             android:text="@string/action_sign_out"
-            app:layout_constraintBottom_toTopOf="@+id/bottomNavViewBar" />
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavViewBar"
 
+            />
 
 
 
@@ -54,4 +72,3 @@
 
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
-

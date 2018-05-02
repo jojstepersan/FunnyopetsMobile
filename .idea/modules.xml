@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:/Users/juanf/Documents/GitHub/FunnypetsMobile/FunnyopetsMobile.iml" filepath="C:/Users/juanf/Documents/GitHub/FunnypetsMobile/FunnyopetsMobile.iml" />
-      <module fileurl="file://$PROJECT_DIR$/FunnypetsMobile.iml" filepath="$PROJECT_DIR$/FunnypetsMobile.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FunnypetsMobile2.iml" filepath="$PROJECT_DIR$/FunnypetsMobile2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

@@ -14,14 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,40 +33,32 @@ import co.com.funnypets.funnypetsmobile.adapters.PhotosAdapter;
 import co.com.funnypets.funnypetsmobile.entities.Usuario;
 import co.com.funnypets.funnypetsmobile.entities.Post;
 
-public class ProfileActivity extends AppCompatActivity {
 
+public class otherPerfilActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private PhotosAdapter adapter;
     private List<Post> albumList;
-    private Usuario usuario= new Usuario();
+    private Usuario usuario;
     private String img="IMG";
-    private static final String TAG = "LogsAndroid";
-    private TextView ctnp;
-    private TextView ctnf;
-    private TextView ctnfo;
-    private TextView nombre;
-    private ImageView foto;
-    private Button editProfile;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_otherperfil);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ctnp=findViewById(R.id.cntpst);
-        ctnf=findViewById(R.id.cntfollowing);
-        ctnfo=findViewById(R.id.cntfollowers);
-        nombre=findViewById(R.id.love_music);
-        foto=findViewById(R.id.backdrop);
-        editProfile=findViewById(R.id.edit_profile_button);
 
+        Intent intent= getIntent();
+        Bundle b =intent.getExtras();
+        String userid=b.getString("ID");
 
-        //   Intent intent= getIntent();
-        //   Bundle b =intent.getExtras();
-        //   String userid=b.getString("ID");
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        final DatabaseReference myRef = database.getReference("Usuarios");
+        final DatabaseReference myRefid = myRef.child(userid);
+      //final DatabaseReference myRefidpost = myRefid.child("post");
+
 
 
 
@@ -86,13 +74,7 @@ public class ProfileActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-        editProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent d = new Intent(ProfileActivity.this,EditProfile.class);
-                startActivity(d);
-            }
-        });
+
         prepareAlbums();
 
         try {
@@ -102,45 +84,12 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//
-        //   final DatabaseReference myRef = database.getReference("Usuarios");
-        //   final DatabaseReference myRefid = myRef.child(userid);
-        //final DatabaseReference myRefidpost = myRefid.child("post");
-
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = database.getReference("Usuarios/"+user.getUid());
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Usuario usuariox = dataSnapshot.getValue(Usuario.class);
-                img=usuariox.getUsuario();
-                nombre.setText(usuariox.getUsuario());
-                ctnp.setText(String.valueOf(usuariox.getCntFotos()));
-                ctnf.setText(String.valueOf(usuariox.getCntFollowing()));
-                ctnfo.setText(String.valueOf(usuariox.getCntFollowers()));
-                Glide.with(ProfileActivity.this).load(usuariox.getUrlfoto()).fitCenter().centerCrop().into(foto);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "onCancelled", databaseError.toException());
-            }
-        });
-
-
-    }
     /**
      * Initializing collapsing toolbar
      * Will show and hide the toolbar title on scroll
      */
     private void initCollapsingToolbar() {
         final CollapsingToolbarLayout collapsingToolbar = findViewById(R.id.collapsing_toolbar);
-
         collapsingToolbar.setTitle(" ");
         AppBarLayout appBarLayout = findViewById(R.id.appbar);
         appBarLayout.setExpanded(true);
@@ -156,7 +105,7 @@ public class ProfileActivity extends AppCompatActivity {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbar.setTitle(img);
+                    collapsingToolbar.setTitle(usuario.getUsuario());
                     isShow = true;
                 } else if (isShow) {
                     collapsingToolbar.setTitle(" ");

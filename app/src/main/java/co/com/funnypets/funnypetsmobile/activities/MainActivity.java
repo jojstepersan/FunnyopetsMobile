@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import co.com.funnypets.funnypetsmobile.R;
+import co.com.funnypets.funnypetsmobile.activities.ProfileActivity;
+
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
@@ -49,6 +51,11 @@ public class MainActivity extends AppCompatActivity {
                     intent = new Intent(MainActivity.this, ProfileActivity.class);
                     startActivity(intent);
                     return true;
+                case R.id.ic_search:
+                    Intent intent3;
+                    intent3 = new Intent(MainActivity.this, SearchActivity.class);
+                    startActivity(intent3);
+                    return true;
             }
             return false;
         }
@@ -68,11 +75,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(MainActivity.this,LoginActivity.class));
-                Toast.makeText(MainActivity.this,"sing out!!",Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this,"sign out!!",Toast.LENGTH_LONG).show();
             }
         });
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottomNavViewBar);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+
+
+
+
     }
 
 }
