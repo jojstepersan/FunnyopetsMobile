@@ -15,7 +15,7 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RecyclerView recyclerView = (RecyclerView) this.findViewById(Integer.parseInt(String.valueOf(R.id.recyclerview)));
+        RecyclerView recyclerView = (RecyclerView) this.findViewById(R.id.recyclerview);
         FlexboxLayoutManager layoutManager;
         layoutManager = new FlexboxLayoutManager(this);
         layoutManager.setFlexDirection(FlexDirection.COLUMN);

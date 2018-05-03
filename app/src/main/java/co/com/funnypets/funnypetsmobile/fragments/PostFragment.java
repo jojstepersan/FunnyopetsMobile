@@ -4,11 +4,20 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import co.com.funnypets.funnypetsmobile.R;
+import co.com.funnypets.funnypetsmobile.adapters.PostAdapter;
+import co.com.funnypets.funnypetsmobile.entities.Post;
+import co.com.funnypets.funnypetsmobile.entities.Usuario;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +39,9 @@ public class PostFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+
+    private PostAdapter adapter;
+    private RecyclerView recyclerView;
     public PostFragment() {
         // Required empty public constructor
     }
@@ -65,7 +77,31 @@ public class PostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_post, container, false);
+        Log.d("home","inflate");
+        View view=inflater.inflate(R.layout.fragment_post, container, false);
+        recyclerView=view.findViewById(R.id.recycler_view_post);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        List<Post>  posts=new ArrayList<>();
+        Usuario usuario=new Usuario();
+        usuario.setUsuario("Stiven Perdomo");
+        Post post;
+        post=new Post("el perrito lendo",usuario,"Lo mas lendo del mundo el perrito lendo",20,R.drawable.post1);
+        posts.add(post);
+        post=new Post("el gato lendo",usuario,"Lo mas lendo del mundo el gato lendo",20,R.drawable.post1);
+        posts.add(post);
+        usuario=new Usuario();
+        usuario.setUsuario("Kevin alberto");
+        post=new Post("el perico lendo",usuario,"Lo mas lendo del mundo el perico lendo",20,R.drawable.post4);
+        posts.add(post);
+        post=new Post("la perra esa",usuario,"Lo mas lendo del mundo la perra esa",20,R.drawable.post4);
+        posts.add(post);
+        usuario=new Usuario();
+        usuario.setUsuario("MARIO BROSS");
+        post=new Post("el tiger",usuario,"Lo mas lendo del mundo el tiger",20,R.drawable.imagen1);
+        posts.add(post);
+        adapter=new PostAdapter(posts);
+        recyclerView.setAdapter(adapter);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -81,8 +117,8 @@ public class PostFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+//            throw new RuntimeException(context.toString()
+  //                  + " must implement OnFragmentInteractionListener");
         }
     }
 
