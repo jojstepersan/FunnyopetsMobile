@@ -1,4 +1,4 @@
-package co.com.funnypets.funnypetsmobile;
+package co.com.funnypets.funnypetsmobile.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

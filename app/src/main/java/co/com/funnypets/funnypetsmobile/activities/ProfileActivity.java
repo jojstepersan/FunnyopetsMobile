@@ -172,17 +172,10 @@ public class ProfileActivity extends AppCompatActivity {
     private void prepareAlbums() {
         int[] covers = new int[]{
                 R.drawable.post1,
-                R.drawable.post2,
                 R.drawable.post3,
-                R.drawable.post4,
-                R.drawable.post5,
-                R.drawable.post6,
-                R.drawable.post5,
-                R.drawable.post8,
-                R.drawable.post9,
-                R.drawable.post10,
-                R.drawable.post5};
-
+                R.drawable.post4
+               };
+/*
         Post a = new Post("Mi perrito", 13, covers[0]);
         albumList.add(a);
 
@@ -212,7 +205,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         a = new Post("perrito", 17, covers[9]);
         albumList.add(a);
-
+*/
         adapter.notifyDataSetChanged();
     }
 

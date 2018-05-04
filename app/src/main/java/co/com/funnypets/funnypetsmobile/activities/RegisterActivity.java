@@ -69,6 +69,9 @@ public class RegisterActivity extends AppCompatActivity {
                                         // Sign in success, update UI with the signed-in user's information
                                         Toast.makeText(RegisterActivity.this, "Se registro correctamente.", Toast.LENGTH_SHORT).show();
                                         Usuario usuario = new Usuario();
+                                        usuario.setCntFollowers(0);
+                                        usuario.setCntFollowing(0);
+                                        usuario.setCntFotos(0);
                                         usuario.setCorreo(correo);
                                         usuario.setUsuario(nombre);
                                         FirebaseUser currentUser = mAuth.getCurrentUser();
