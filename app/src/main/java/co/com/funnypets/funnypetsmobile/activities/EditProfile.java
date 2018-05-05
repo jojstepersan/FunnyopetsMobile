@@ -16,7 +16,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -42,6 +45,7 @@ public class EditProfile extends AppCompatActivity {
     private AutoCompleteTextView name;
     private AutoCompleteTextView email;
     private EditText pass;
+    private EditText passl;
     private Button boton;
     public ProgressDialog dialog;
 
@@ -55,6 +59,7 @@ public class EditProfile extends AppCompatActivity {
         name=findViewById(R.id.name_edit);
         email=findViewById(R.id.email_edit);
         pass=findViewById(R.id.password_edit);
+        passl=findViewById(R.id.last_password_edit);
         boton=findViewById(R.id.save_changes_btn);
         dialog= new ProgressDialog(this);
 
@@ -67,30 +72,57 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String nombre =name.getText().toString();
-                String pasword =pass.getText().toString();
+                final String pasword =pass.getText().toString();
+                String lastpassword= passl.getText().toString();
                 final String correo=email.getText().toString();
                 final String TAG="hols";
                 dialog.setMessage("Editing your profile");
                 dialog.show();
-                FirebaseAuth.getInstance().getCurrentUser().updatePassword(pasword)
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                AuthCredential credential = EmailAuthProvider
+                        .getCredential( FirebaseAuth.getInstance().getCurrentUser().getEmail(), lastpassword);
+
+
+                FirebaseAuth.getInstance().getCurrentUser().reauthenticate(credential)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
-                            public void onComplete(Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    dialog.dismiss();
-                                    Toast.makeText(getApplicationContext(),"your profile has benn updated",Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
-                FirebaseAuth.getInstance().getCurrentUser().updateEmail(correo)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(Task<Void> task) {
-                                if (task.isSuccessful()) {
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Log.d("sisas", "User re-authenticated.");
+                                if(task.isSuccessful()){
+                                    user.updatePassword(pasword)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        dialog.dismiss();
+
+                                                    }
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.e("Update user","Fail change password",e);
+                                            Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+
+                                    FirebaseAuth.getInstance().getCurrentUser().updateEmail(correo)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        dialog.dismiss();
+                                                        Toast.makeText(getApplicationContext(),"your profile has benn updated",Toast.LENGTH_LONG).show();
+                                                    }
+                                                }
+                                            });
 
                                 }
                             }
                         });
+
+
+
 
                 HashMap<String, Object> result = new HashMap<>();
                 result.put("usuario",nombre);
