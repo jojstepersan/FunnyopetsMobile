@@ -1,5 +1,6 @@
 package co.com.funnypets.funnypetsmobile.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,18 +11,24 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import co.com.funnypets.funnypetsmobile.R;
+import co.com.funnypets.funnypetsmobile.activities.MainActivity;
+import co.com.funnypets.funnypetsmobile.activities.ProfileActivity;
 import co.com.funnypets.funnypetsmobile.entities.Post;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     public List<Post> postList;
+    public Context mContext;
 
-    public PostAdapter(List<Post> postList) {
+    public PostAdapter(Context mContext, List<Post> postList) {
         this.postList = postList;
+        this.mContext =mContext;
     }
 
     @NonNull
@@ -36,8 +43,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.usuario.setText(postList.get(position).getUsuario().getUsuario());
         holder.descripcion.setText(postList.get(position).getDescripcion());
-        holder.profile.setImageResource(postList.get(position).getPhoto());
-        holder.post.setImageResource(postList.get(position).getPhoto());
+        Glide.with(mContext).load(postList.get(position).getUrlphotopost()).fitCenter().centerCrop().into(holder.profile);
+        Glide.with(mContext).load(postList.get(position).getUrlphotopost()).fitCenter().centerCrop().into(holder.post);
         holder.likes.setText(String.valueOf(postList.get(position).getNumOfLikes())+ " likes");
     }
 

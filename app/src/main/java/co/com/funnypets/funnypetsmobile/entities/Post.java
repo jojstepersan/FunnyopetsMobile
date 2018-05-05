@@ -6,14 +6,22 @@ public class Post {
     private Usuario usuario;
     private String  descripcion;
     private int numOfLikes;
-    private int photo;
+    private String Urlphotopost;
 
-    public Post(String name, Usuario usuario, String descripcion, int numOfLikes, int photo) {
+    public Post(String name, Usuario usuario, String descripcion, int numOfLikes, String UrlPost) {
         this.name = name;
         this.usuario = usuario;
         this.descripcion = descripcion;
         this.numOfLikes = numOfLikes;
-        this.photo = photo;
+        this.Urlphotopost=UrlPost;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Usuario getUsuario() {
@@ -32,14 +40,6 @@ public class Post {
         this.descripcion = descripcion;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getNumOfLikes() {
         return numOfLikes;
     }
@@ -48,11 +48,11 @@ public class Post {
         this.numOfLikes = numOfLikes;
     }
 
-    public int getPhoto() {
-        return photo;
+    public String getUrlphotopost() {
+        return Urlphotopost;
     }
 
-    public void setPhoto(int photo) {
-        this.photo = photo;
+    public void setUrlphotopost(String urlphotopost) {
+        Urlphotopost = urlphotopost;
     }
 }
