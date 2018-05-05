@@ -38,7 +38,11 @@
             android:label="@string/title_activity_edit_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.LoginActivity$SearchAcitivy" />
-        <activity android:name=".activities.SearchAcitivy"></activity>
+        <activity android:name=".activities.SearchAcitivy" />
+        <activity
+            android:name=".activities.SearchActivity"
+            android:label="@string/title_activity_search"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

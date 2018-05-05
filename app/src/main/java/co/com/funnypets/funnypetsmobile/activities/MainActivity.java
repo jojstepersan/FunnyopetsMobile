@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import co.com.funnypets.funnypetsmobile.R;
-import co.com.funnypets.funnypetsmobile.activities.ProfileActivity;
 
 import android.view.View.OnClickListener;
 import android.widget.Toast;
@@ -34,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.ic_house:
-
                     Intent intent1;
                     intent1 = new Intent(MainActivity.this, MainActivity.class);
                     startActivity(intent1);
@@ -43,10 +41,8 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent2;
                     intent2 = new Intent(MainActivity.this, ChatActivity.class);
                     startActivity(intent2);
-
                     return true;
                 case R.id.ic_android:
-                    
                     Intent intent;
                     intent = new Intent(MainActivity.this, ProfileActivity.class);
                     startActivity(intent);
