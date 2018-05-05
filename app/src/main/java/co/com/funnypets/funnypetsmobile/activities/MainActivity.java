@@ -75,11 +75,6 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.main_fragment, new PostFragment()).commit();
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottomNavViewBar);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-
-
-
-
     }
 
 }
