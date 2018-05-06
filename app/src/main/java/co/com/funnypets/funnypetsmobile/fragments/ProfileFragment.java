@@ -1,44 +1,56 @@
-package co.com.funnypets.funnypetsmobile.activities;
+package co.com.funnypets.funnypetsmobile.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import co.com.funnypets.funnypetsmobile.R;
+import co.com.funnypets.funnypetsmobile.activities.EditProfile;
+import co.com.funnypets.funnypetsmobile.activities.ProfileActivity;
 import co.com.funnypets.funnypetsmobile.adapters.PhotosAdapter;
-import co.com.funnypets.funnypetsmobile.entities.Usuario;
 import co.com.funnypets.funnypetsmobile.entities.Post;
+import co.com.funnypets.funnypetsmobile.entities.Usuario;
 
-public class ProfileActivity extends AppCompatActivity {
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link ProfileFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link ProfileFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class ProfileFragment extends Fragment {
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
 
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
 
     private RecyclerView recyclerView;
     private PhotosAdapter adapter;
@@ -53,34 +65,66 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView foto;
     private Button editProfile;
 
+    private OnFragmentInteractionListener mListener;
+
+    public ProfileFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment ProfileFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static ProfileFragment newInstance(String param1, String param2) {
+        ProfileFragment fragment = new ProfileFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ctnp=findViewById(R.id.cntpst);
-        ctnf=findViewById(R.id.cntfollowing);
-        ctnfo=findViewById(R.id.cntfollowers);
-        nombre=findViewById(R.id.love_music);
-        foto=findViewById(R.id.backdrop);
-        editProfile=findViewById(R.id.edit_profile_button);
-       // img=usuariox.getUsuario();
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view=inflater.inflate(R.layout.fragment_profile, container, false);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+     /*   ctnp=view.findViewById(R.id.cntpst);
+        ctnf=view.findViewById(R.id.cntfollowing);
+        ctnfo=view.findViewById(R.id.cntfollowers);
+        nombre=view.findViewById(R.id.love_music);
+        foto=view.findViewById(R.id.backdrop);
+        editProfile=view.findViewById(R.id.edit_profile_button);
+        // img=usuariox.getUsuario();
         nombre.setText("Mario Herrera");//(usuariox.getUsuario());
         ctnp.setText(10+"");//(String.valueOf(usuariox.getCntFotos()));
         ctnf.setText(20+"");//(String.valueOf(usuariox.getCntFollowing()));
         ctnfo.setText(15+"");//(String.valueOf(usuariox.getCntFollowers()));
-        Glide.with(ProfileActivity.this).load("https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2F20881853_1749211925092389_4384820394433587108_n.jpg?alt=media&token=af5e99fd-6936-4c7c-8463-0f2096560e29").fitCenter().centerCrop().into(foto);
-        //   Intent intent= getIntent();
+        Glide.with(getContext()).load("https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2F20881853_1749211925092389_4384820394433587108_n.jpg?alt=media&token=af5e99fd-6936-4c7c-8463-0f2096560e29").fitCenter().centerCrop().into(foto);
+     */   //   Intent intent= getIntent();
         //   Bundle b =intent.getExtras();
         //   String userid=b.getString("ID");
-        initCollapsingToolbar();
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+       // initCollapsingToolbar();
+    /*    recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         albumList = new ArrayList<>();
-        adapter = new PhotosAdapter(this, albumList);
+        adapter = new PhotosAdapter(getContext(), albumList);
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(1), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -88,89 +132,53 @@ public class ProfileActivity extends AppCompatActivity {
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent d = new Intent(ProfileActivity.this,EditProfile.class);
+                Intent d = new Intent(getContext(),EditProfile.class);
                 startActivity(d);
             }
         });
-        prepareAlbums();
-/*
-        try {
-            Glide.with(this).load(R.drawable.profile2).into((ImageView) findViewById(R.id.backdrop));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
+        prepareAlbums();*/
+        return  view;
     }
 
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//
-        //   final DatabaseReference myRef = database.getReference("Usuarios");
-        //   final DatabaseReference myRefid = myRef.child(userid);
-        //final DatabaseReference myRefidpost = myRefid.child("post");
-
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = database.getReference("Usuarios/"+user.getUid());
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Usuario usuariox = dataSnapshot.getValue(Usuario.class);
-                img=usuariox.getUsuario();
-                nombre.setText("Mario Herrera");//(usuariox.getUsuario());
-                ctnp.setText(10+"");//(String.valueOf(usuariox.getCntFotos()));
-                ctnf.setText(20+"");//(String.valueOf(usuariox.getCntFollowing()));
-                ctnfo.setText(15+"");//(String.valueOf(usuariox.getCntFollowers()));
-                Glide.with(ProfileActivity.this).load("https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2F20881853_1749211925092389_4384820394433587108_n.jpg?alt=media&token=af5e99fd-6936-4c7c-8463-0f2096560e29").fitCenter().centerCrop().into(foto);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "onCancelled", databaseError.toException());
-            }
-        });
-
-
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+        }
     }
-    /**
-     * Initializing collapsing toolbar
-     * Will show and hide the toolbar title on scroll
-     */
-    private void initCollapsingToolbar() {
-        final CollapsingToolbarLayout collapsingToolbar = findViewById(R.id.collapsing_toolbar);
 
-        collapsingToolbar.setTitle(" ");
-        AppBarLayout appBarLayout = findViewById(R.id.appbar);
-        appBarLayout.setExpanded(true);
-
-        // hiding & showing the title when toolbar expanded & collapsed
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean isShow = false;
-            int scrollRange = -1;
-
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (scrollRange == -1) {
-                    scrollRange = appBarLayout.getTotalScrollRange();
-                }
-                if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbar.setTitle(img);
-                    isShow = true;
-                } else if (isShow) {
-                    collapsingToolbar.setTitle(" ");
-                    isShow = false;
-                }
-            }
-        });
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     /**
-     * Adding few albums for testing
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
      */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
+
     private void prepareAlbums() {
-        DatabaseReference ref=FirebaseDatabase.getInstance().getReference("post");
+        DatabaseReference ref= FirebaseDatabase.getInstance().getReference("post");
 
 
         Post a = new Post("Señor bigotes", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fgato-enfermo.jpg?alt=media&token=584353d8-51ad-4325-b6fd-e843d607f494");
@@ -212,12 +220,8 @@ public class ProfileActivity extends AppCompatActivity {
         albumList.add(a);
         ref.setValue(a);
 
-       adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
     }
-
-    /**
-     * RecyclerView item decoration - give equal margin around grid item
-     */
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
         private int spanCount;
@@ -253,13 +257,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-        usuario = dataSnapshot.getValue(Usuario.class);
-    }
-
-    /**
-     * Converting dp to pixel
-     */
     private int dpToPx(int dp) {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));

@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import co.com.funnypets.funnypetsmobile.R;
 import co.com.funnypets.funnypetsmobile.fragments.PostFragment;
+import co.com.funnypets.funnypetsmobile.fragments.ProfileFragment;
 
 import android.view.View.OnClickListener;
 import android.widget.Toast;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                     return true;
                 case R.id.ic_search:
-                    startActivity(new Intent(MainActivity.this, SearchActivity.class));
+                    transaction.replace(R.id.main_fragment, new ProfileFragment()).commit();
 
                     return true;
             }
