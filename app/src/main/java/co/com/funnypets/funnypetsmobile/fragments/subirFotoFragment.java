@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.storage.FirebaseStorage;
+
 import co.com.funnypets.funnypetsmobile.R;
 
 /**
@@ -30,6 +32,7 @@ public class subirFotoFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private FirebaseStorage storage=FirebaseStorage.getInstance();
     public subirFotoFragment() {
         // Required empty public constructor
     }
