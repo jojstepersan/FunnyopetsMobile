@@ -49,14 +49,14 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent2);
                     return true;
                 case R.id.ic_android:
-                    
-                    Intent intent;
-                    intent = new Intent(MainActivity.this, ProfileActivity.class);
-                    startActivity(intent);
+                    transaction.replace(R.id.main_fragment, new ProfileFragment()).commit();
                     return true;
                 case R.id.ic_search:
                     transaction.replace(R.id.main_fragment, new ProfileFragment()).commit();
-
+                    return true;
+                case R.id.ic_alert:
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(new Intent(MainActivity.this,LoginActivity.class));
                     return true;
             }
             return false;

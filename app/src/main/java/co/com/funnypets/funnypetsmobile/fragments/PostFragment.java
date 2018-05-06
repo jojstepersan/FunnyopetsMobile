@@ -11,6 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +48,8 @@ public class PostFragment extends Fragment {
 
     private PostAdapter adapter;
     private RecyclerView recyclerView;
+    List<Post>  posts=new ArrayList<>();
+
     public PostFragment() {
         // Required empty public constructor
     }
@@ -81,9 +89,21 @@ public class PostFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_post, container, false);
         recyclerView=view.findViewById(R.id.recycler_view_post);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        List<Post>  posts=new ArrayList<>();
         Usuario usuario=new Usuario();
-        usuario.setUrlfoto("https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2F20881853_1749211925092389_4384820394433587108_n.jpg?alt=media&token=af5e99fd-6936-4c7c-8463-0f2096560e29");
+        DatabaseReference ref= FirebaseDatabase.getInstance().getReference("posts");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                posts= (List<Post>) dataSnapshot.getValue();
+                Log.d("post","#post");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+     /*   usuario.setUrlfoto("https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2F20881853_1749211925092389_4384820394433587108_n.jpg?alt=media&token=af5e99fd-6936-4c7c-8463-0f2096560e29");
         usuario.setUsuario("Mario Herrera");
         Post post;
         post=new Post(""
@@ -103,6 +123,8 @@ public class PostFragment extends Fragment {
         usuario.setUsuario("Stiven Perdomo");
         post=new Post("el tiger",usuario,"mi bigotes esta muy enfermo alguen recomienda un buen lugar para que me lo revisen",20,"https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fgato-enfermo.jpg?alt=media&token=584353d8-51ad-4325-b6fd-e843d607f494");
         posts.add(post);
+       // ref.setValue(posts);
+       */
         adapter=new PostAdapter(getContext(),posts);
         recyclerView.setAdapter(adapter);
         return view;

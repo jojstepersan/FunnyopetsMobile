@@ -104,7 +104,7 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_profile, container, false);
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-     /*   ctnp=view.findViewById(R.id.cntpst);
+        ctnp=view.findViewById(R.id.cntpst);
         ctnf=view.findViewById(R.id.cntfollowing);
         ctnfo=view.findViewById(R.id.cntfollowers);
         nombre=view.findViewById(R.id.love_music);
@@ -116,11 +116,11 @@ public class ProfileFragment extends Fragment {
         ctnf.setText(20+"");//(String.valueOf(usuariox.getCntFollowing()));
         ctnfo.setText(15+"");//(String.valueOf(usuariox.getCntFollowers()));
         Glide.with(getContext()).load("https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2F20881853_1749211925092389_4384820394433587108_n.jpg?alt=media&token=af5e99fd-6936-4c7c-8463-0f2096560e29").fitCenter().centerCrop().into(foto);
-     */   //   Intent intent= getIntent();
+        //   Intent intent= getIntent();
         //   Bundle b =intent.getExtras();
         //   String userid=b.getString("ID");
        // initCollapsingToolbar();
-    /*    recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         albumList = new ArrayList<>();
         adapter = new PhotosAdapter(getContext(), albumList);
 
@@ -136,7 +136,7 @@ public class ProfileFragment extends Fragment {
                 startActivity(d);
             }
         });
-        prepareAlbums();*/
+        prepareAlbums();
         return  view;
     }
 
