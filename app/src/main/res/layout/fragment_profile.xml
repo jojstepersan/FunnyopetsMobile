@@ -58,7 +58,7 @@
                     android:layout_height="28dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
-
+                    android:id="@+id/profile_signout"
                     android:textColor="@color/black"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="320dp"

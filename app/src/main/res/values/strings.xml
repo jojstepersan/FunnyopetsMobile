@@ -35,10 +35,23 @@
     <string name="Chat">Chat</string>
     <string name="funny_pest">FunnyPets</string>
 
+    <string name="publicar">Publicar</string>
+
     <string name="Search">Search</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_edit_profile">EditProfile</string>
     <string name="title_activity_post">PostActivity</string>
+    <string-array name="planets_array">
+        <item>Categoria....</item>
+        <item>Perro</item>
+        <item>Gato</item>
+        <item>Loro</item>
+        <item>Perico</item>
+        <item>Caballo</item>
+        <item>Hamster</item>
+        <item>Araña</item>
+        <item>Cocodrilo</item>
+    </string-array>
 </resources>

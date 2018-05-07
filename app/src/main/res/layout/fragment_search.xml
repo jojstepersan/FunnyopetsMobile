@@ -9,6 +9,17 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:textAlignment="center"
+            android:text="Funny pest"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:fontFamily="sans-serif-condensed"
+            android:background="@color/colorPrimary"
+            android:textSize="40dp"
+            />
         <AutoCompleteTextView
             android:id="@+id/search_btn"
             android:layout_width="match_parent"

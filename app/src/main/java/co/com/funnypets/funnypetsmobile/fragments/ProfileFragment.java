@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -29,6 +30,8 @@ import java.util.List;
 
 import co.com.funnypets.funnypetsmobile.R;
 import co.com.funnypets.funnypetsmobile.activities.EditProfile;
+import co.com.funnypets.funnypetsmobile.activities.LoginActivity;
+import co.com.funnypets.funnypetsmobile.activities.MainActivity;
 import co.com.funnypets.funnypetsmobile.activities.ProfileActivity;
 import co.com.funnypets.funnypetsmobile.adapters.PhotosAdapter;
 import co.com.funnypets.funnypetsmobile.entities.Post;
@@ -64,6 +67,7 @@ public class ProfileFragment extends Fragment {
     private TextView nombre;
     private ImageView foto;
     private Button editProfile;
+    private Button signout;
 
     private OnFragmentInteractionListener mListener;
 
@@ -115,6 +119,15 @@ public class ProfileFragment extends Fragment {
         ctnp.setText(10+"");//(String.valueOf(usuariox.getCntFotos()));
         ctnf.setText(20+"");//(String.valueOf(usuariox.getCntFollowing()));
         ctnfo.setText(15+"");//(String.valueOf(usuariox.getCntFollowers()));
+        signout=view.findViewById(R.id.profile_signout);
+        signout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getContext(),LoginActivity.class));
+
+            }
+        });
         Glide.with(getContext()).load("https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2F20881853_1749211925092389_4384820394433587108_n.jpg?alt=media&token=af5e99fd-6936-4c7c-8463-0f2096560e29").fitCenter().centerCrop().into(foto);
         //   Intent intent= getIntent();
         //   Bundle b =intent.getExtras();
