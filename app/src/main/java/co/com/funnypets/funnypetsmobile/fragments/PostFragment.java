@@ -103,7 +103,7 @@ public class PostFragment extends Fragment {
 
             }
         });
-     /*   usuario.setUrlfoto("https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2F20881853_1749211925092389_4384820394433587108_n.jpg?alt=media&token=af5e99fd-6936-4c7c-8463-0f2096560e29");
+        usuario.setUrlfoto("https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2F20881853_1749211925092389_4384820394433587108_n.jpg?alt=media&token=af5e99fd-6936-4c7c-8463-0f2096560e29");
         usuario.setUsuario("Mario Herrera");
         Post post;
         post=new Post(""
@@ -124,7 +124,7 @@ public class PostFragment extends Fragment {
         post=new Post("el tiger",usuario,"mi bigotes esta muy enfermo alguen recomienda un buen lugar para que me lo revisen",20,"https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fgato-enfermo.jpg?alt=media&token=584353d8-51ad-4325-b6fd-e843d607f494");
         posts.add(post);
        // ref.setValue(posts);
-       */
+
         adapter=new PostAdapter(getContext(),posts);
         recyclerView.setAdapter(adapter);
         return view;

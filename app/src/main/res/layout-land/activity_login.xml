@@ -29,36 +29,29 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-
-            <LinearLayout
-
-                android:background="@color/colorPrimary"
-                android:paddingBottom="10dp"
+            <TextView
                 android:layout_width="match_parent"
+                android:background="@color/colorPrimary"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
+                android:textAlignment="center"
+                android:text="Funny pets"
+                android:layout_gravity="center_horizontal"
 
+                android:textColor="@color/white"
+                android:fontFamily="sans-serif-condensed"
+                android:textSize="40dp"
+                />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:text="Funny pets"
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal">
 
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:textColor="@color/white"
-                    android:fontFamily="sans-serif-condensed"
-                    android:textSize="40dp"
-                    />
-
-
-                    />
-
-        </LinearLayout>
+               <LinearLayout
+                   android:layout_weight="2"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical">
             <android.support.v7.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -66,7 +59,7 @@
                 android:layout_gravity="center_horizontal"></android.support.v7.widget.AppCompatImageView>
 
             <LinearLayout
-                android:layout_marginTop="30dp"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -122,19 +115,23 @@
 
             </LinearLayout>
 
+               </LinearLayout>
+
 <LinearLayout
+    android:layout_weight="1"
     android:layout_marginTop="30dp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
 
     android:layout_gravity="center_horizontal"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <Button
         android:id="@+id/email_sign_in_button"
         style="?android:textAppearanceSmall"
         android:layout_width="150dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
@@ -144,57 +141,60 @@
         />
 
     <Button
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
         android:id="@+id/btn_register"
         style="?android:textAppearanceSmall"
         android:layout_width="150dp"
         android:textColor="@color/white"
-
         android:layout_height="wrap_content"
         android:background="@drawable/buttonstyle"
-
         android:text="@string/register"
         android:textStyle="bold" />
 
 
+    <LinearLayout
+        android:layout_margin="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        android:gravity="center_horizontal"
+
+        >
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:src="@drawable/facebookblanco64"
+            android:layout_margin="10dp"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:src="@drawable/instagramblanco64"
+            android:layout_margin="10dp"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:src="@drawable/twitterblanco64"
+            android:layout_margin="10dp"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:src="@drawable/tumblrblanco64"
+            android:layout_margin="10dp"/>
+
+    </LinearLayout>
+
 
 </LinearLayout>
 
-            <LinearLayout
-                android:layout_margin="30dp"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@color/colorPrimary"
-                android:orientation="horizontal"
-                android:paddingTop="20dp"
-                android:gravity="center_horizontal"
 
-                >
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/facebookblanco64"
-                    android:layout_margin="10dp"/>
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/instagramblanco64"
-                    android:layout_margin="10dp"/>
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/twitterblanco64"
-                    android:layout_margin="10dp"/>
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/tumblrblanco64"
-                    android:layout_margin="10dp"/>
-
-            </LinearLayout>
-
+           </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

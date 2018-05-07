@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                     transaction.replace(R.id.main_fragment, new ProfileFragment()).commit();
                     return true;
                 case R.id.ic_search:
-                    transaction.replace(R.id.main_fragment, new ProfileFragment()).commit();
+                   // transaction.replace(R.id.main_fragment, new ProfileFragment()).commit();
                     return true;
                 case R.id.ic_alert:
                     FirebaseAuth.getInstance().signOut();
