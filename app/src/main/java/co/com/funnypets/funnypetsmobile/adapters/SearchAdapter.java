@@ -1,50 +1,61 @@
 package co.com.funnypets.funnypetsmobile.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import co.com.funnypets.funnypetsmobile.R;
+import co.com.funnypets.funnypetsmobile.entities.Usuario;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolderDatos> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder>{
     ArrayList<String> listDatos;
+    List<Usuario> usuarios;
+    public Context mContext;
 
-    public SearchAdapter(ArrayList<String> listDatos) {
-        this.listDatos = listDatos;
+    public SearchAdapter(ArrayList<Usuario> usuarios, Context context) {
+        mContext = context;
+        this.usuarios = usuarios;
     }
 
     @NonNull
     @Override
-    public ViewHolderDatos onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recyclerview,null,false);
-        return new ViewHolderDatos(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_item,parent, false);
+        SearchAdapter.ViewHolder viewHolder = new SearchAdapter.ViewHolder(view);
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolderDatos holder, int position) {
-        holder.asignarDatos(listDatos.get(position));
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.username.setText(usuarios.get(position).getUsuario());
+        Glide.with(mContext).load(usuarios.get(position).getUrlfoto()).fitCenter().centerCrop().into(holder.imagenPerfil);
     }
 
     @Override
     public int getItemCount() {
-        return listDatos.size();
+        return usuarios.size();
     }
 
-    public class ViewHolderDatos extends RecyclerView.ViewHolder {
-        TextView imagen;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView username;
+        ImageView imagenPerfil;
 
-        public ViewHolderDatos(View itemView) {
+
+        public ViewHolder(View itemView) {
             super(itemView);
-            imagen = itemView.findViewById(R.id.image);
+            username = itemView.findViewById(R.id.search_cardView_name);
+            imagenPerfil = itemView.findViewById(R.id.search_foto);
         }
 
-        public void asignarDatos(String s) {
-            imagen.setText(s);
-        }
     }
 }
