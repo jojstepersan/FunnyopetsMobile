@@ -71,7 +71,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.MyViewHold
         holder.count.setText(album.getNumOfLikes() + " Likes");
 
         // loading album cover using Glide library
-        //Glide.with(mContext).load(album.getPhoto()).into(holder.thumbnail);
+        Glide.with(mContext).load(album.getUrlphotopost()).into(holder.thumbnail);
 
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override

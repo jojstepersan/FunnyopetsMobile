@@ -2,12 +2,12 @@ package co.com.funnypets.funnypetsmobile.entities;
 
 public class Usuario {
 
-    private String usuario;
-    private String correo;
-    private long cntFotos;
+    private String Urlfoto;
     private long cntFollowers;
     private long cntFollowing;
-    private String Urlfoto;
+    private long cntFotos;
+    private String usuario;
+    private String correo;
 
     public String getUrlfoto() {
         return Urlfoto;

@@ -47,7 +47,17 @@
 
         </LinearLayout>
 
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
 
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
         <android.support.v7.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="100dp"
@@ -89,6 +99,15 @@
                 android:singleLine="true" />
 
         </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_marginTop="3dp">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -144,9 +163,10 @@
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/buttonstyle"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="40dp"
             android:text="Save Changes"
             android:textStyle="bold" />
     </LinearLayout>
-
+</LinearLayout>
+    </LinearLayout>
 </LinearLayout>
