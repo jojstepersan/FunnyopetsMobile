@@ -1,6 +1,7 @@
 package co.com.funnypets.funnypetsmobile.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.com.funnypets.funnypetsmobile.R;
+import co.com.funnypets.funnypetsmobile.activities.PostDetailActivity;
 import co.com.funnypets.funnypetsmobile.adapters.PostAdapter;
 import co.com.funnypets.funnypetsmobile.entities.Post;
 import co.com.funnypets.funnypetsmobile.entities.Usuario;
@@ -100,6 +102,14 @@ public class PostFragment extends Fragment {
         post=new Post("el tiger",usuario,"Lo mas lendo del mundo el tiger",20,"https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fimage%3A5239?alt=media&token=65b04ad4-401c-4a0b-8274-d4ce7d2d5156");
         posts.add(post);
         adapter=new PostAdapter(getContext(),posts);
+
+        adapter.setOnclickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent next = new Intent(getContext(), PostDetailActivity.class);
+                startActivity(next);
+            }
+        });
         recyclerView.setAdapter(adapter);
         return view;
     }
