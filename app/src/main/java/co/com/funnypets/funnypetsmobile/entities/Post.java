@@ -8,6 +8,7 @@ public class Post {
     private int numOfLikes;
     private String Urlphotopost;
 
+    public Post(){}
     public Post(String name, Usuario usuario, String descripcion, int numOfLikes, String UrlPost) {
         this.name = name;
         this.usuario = usuario;

@@ -12,17 +12,16 @@
        android:layout_height="match_parent">
 
        <TextView
+           android:id="@+id/textView2"
            android:layout_width="match_parent"
-           android:layout_height="60dp"
-           android:textAlignment="center"
-           android:text="Funny pest"
+           android:layout_height="50dp"
            android:layout_gravity="center_horizontal"
-           android:textColor="@color/white"
-           android:fontFamily="sans-serif-condensed"
            android:background="@color/colorPrimary"
-           android:textSize="40dp"
-           />
-
+           android:fontFamily="sans-serif-condensed"
+           android:text="@string/funny_pest"
+           android:textAlignment="center"
+           android:textColor="@color/white"
+           android:textSize="35dp" />
 
        <android.support.v7.widget.RecyclerView
 
