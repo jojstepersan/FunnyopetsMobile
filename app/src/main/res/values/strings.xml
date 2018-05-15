@@ -44,13 +44,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_edit_profile">EditProfile</string>
     <string name="title_activity_post">PostActivity</string>
-<<<<<<< HEAD
-
     <string name="title_activity_post_detail">PostDetailActivity</string>
 
-=======
-    <string name="title_activity_post_detail">PostDetailActivity</string>
->>>>>>> master
     <string-array name="planets_array">
         <item>Seleccione....</item>
         <item>Perro</item>

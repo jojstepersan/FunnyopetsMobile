@@ -1,6 +1,7 @@
 package co.com.funnypets.funnypetsmobile.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,16 +20,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-<<<<<<< HEAD
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-=======
->>>>>>> master
 
 import java.util.ArrayList;
 import java.util.List;
 
 import co.com.funnypets.funnypetsmobile.R;
+import co.com.funnypets.funnypetsmobile.activities.PostDetailActivity;
 import co.com.funnypets.funnypetsmobile.adapters.PostAdapter;
 import co.com.funnypets.funnypetsmobile.entities.Post;
 import co.com.funnypets.funnypetsmobile.entities.Usuario;
@@ -55,24 +53,15 @@ public class PostFragment extends Fragment {
 
     private PostAdapter adapter;
     private RecyclerView recyclerView;
-<<<<<<< HEAD
-    List<Post>  posts=new ArrayList<>();  private FirebaseAuth mAuth;
-=======
     List<Post> posts = new ArrayList<>();
     private FirebaseAuth mAuth;
->>>>>>> master
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mFirebaseAuth;//mAuth
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
-<<<<<<< HEAD
-    private  String userID;
-
-=======
-    private static String userID;
+    public static String userID;
     public static Usuario usuario;
     public static int i = 0;
->>>>>>> master
 
 
     public PostFragment() {
@@ -110,14 +99,6 @@ public class PostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //traer la base de datos
-<<<<<<< HEAD
-        mFirebaseAuth=FirebaseAuth.getInstance();
-        mFirebaseDatabase=FirebaseDatabase.getInstance();
-        myRef=mFirebaseDatabase.getReference().child("posts");
-        FirebaseUser user=mFirebaseAuth.getCurrentUser();
-        userID=user.getUid();
-        posts=new ArrayList<>();
-=======
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference().child("posts");
@@ -141,7 +122,6 @@ public class PostFragment extends Fragment {
         });
         Log.d("root", userID);
         posts = new ArrayList<>();
->>>>>>> master
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -154,11 +134,6 @@ public class PostFragment extends Fragment {
             }
         });
         // Inflate the layout for this fragment
-<<<<<<< HEAD
-        View view=inflater.inflate(R.layout.fragment_post, container, false);
-        recyclerView=view.findViewById(R.id.recycler_view_post);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-=======
         Log.d("home", "inflate");
         View view = inflater.inflate(R.layout.fragment_post, container, false);
         recyclerView = view.findViewById(R.id.recycler_view_post);
@@ -182,7 +157,6 @@ public class PostFragment extends Fragment {
         post=new Post("el tiger",usuario,"Lo mas lendo del mundo el tiger",20,"https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fimage%3A5239?alt=media&token=65b04ad4-401c-4a0b-8274-d4ce7d2d5156");
         posts.add(post);
         adapter=new PostAdapter(getContext(),posts);
-
         adapter.setOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -190,31 +164,16 @@ public class PostFragment extends Fragment {
                 startActivity(next);
             }
         });*/
+
         recyclerView.setAdapter(adapter);
->>>>>>> master
         return view;
     }
 
     private void showData(DataSnapshot ds) {
-<<<<<<< HEAD
-        int i=0;
-        for (DataSnapshot dataSnapshot:ds.getChildren()) {
-            Post post=new Post();
-            post.setDescripcion(ds.child((i)+"").getValue(Post.class).getDescripcion());
-            post.setUrlphotopost(ds.child((i)+"").getValue(Post.class).getUrlphotopost());
-            post.setUsuario(ds.child((i)+"").getValue(Post.class).getUsuario());
-            post.setNumOfLikes(ds.child((i)+"").getValue(Post.class).getNumOfLikes());
-            posts.add(post);
-            i++;
-            adapter=new PostAdapter(getContext(),posts);
-            recyclerView.setAdapter(adapter);
-        }
-
-        Log.d("post","show data size: "+posts.size());
-=======
-        int i = 0;
         for (DataSnapshot dataSnapshot : ds.getChildren()) {
             Post post = new Post();
+            post.setAdopcion(ds.child((i) + "").getValue(Post.class).isAdopcion());
+            post.setCategoria(ds.child((i) + "").getValue(Post.class).getCategoria());
             post.setDescripcion(ds.child((i) + "").getValue(Post.class).getDescripcion());
             post.setUrlphotopost(ds.child((i) + "").getValue(Post.class).getUrlphotopost());
             post.setUsuario(ds.child((i) + "").getValue(Post.class).getUsuario());
@@ -222,11 +181,22 @@ public class PostFragment extends Fragment {
             posts.add(post);
             i++;
             adapter = new PostAdapter(getContext(), posts);
+            adapter.setOnclickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent hola=new Intent(getContext(), PostDetailActivity.class);
+                    startActivity(hola);
+                    Toast toast1 =
+                            Toast.makeText(getContext(),
+                                    "Toast por defecto", Toast.LENGTH_SHORT);
+
+                    toast1.show();
+                }
+            });
             recyclerView.setAdapter(adapter);
         }
 
         Log.d("post", "show data size: " + posts.size());
->>>>>>> master
 
     }
 
@@ -268,6 +238,4 @@ public class PostFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-
 }
