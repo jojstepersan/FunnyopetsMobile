@@ -1,18 +1,32 @@
 package co.com.funnypets.funnypetsmobile.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.util.concurrent.Executor;
 
 import co.com.funnypets.funnypetsmobile.R;
+import co.com.funnypets.funnypetsmobile.entities.MensajeEnviar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +49,10 @@ public class subirFotoFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private FirebaseStorage storage=FirebaseStorage.getInstance();
+    private StorageReference refStr;
+    private static final int GALERY_INTENT=1;
+    private ImageView image;
+
     public subirFotoFragment() {
         // Required empty public constructor
     }
@@ -71,13 +89,33 @@ public class subirFotoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_subir_foto, container, false);
+        image=view.findViewById(R.id.image_subir_foto);
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("Image_touch","imagen....");
+                Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.setType("image/");
+                startActivityForResult(intent.createChooser(intent,"Seleccione una imagen"),GALERY_INTENT);
+
+            }
+        });
         Spinner spinner = (Spinner) view.findViewById(R.id.categorias_spinner);
-// Create an ArrayAdapter using the string array and a default spinner layout
+        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),R.array.planets_array, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
+        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
+        // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
+        Button btnSubirFoto=view.findViewById(R.id.btn_subir_foto);
+        btnSubirFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.setType("image/");
+            startActivityForResult(intent.createChooser(intent,"Seleccione una imagen"),GALERY_INTENT);
+            }
+        });
         return view;
     }
 
@@ -116,5 +154,22 @@ public class subirFotoFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == GALERY_INTENT && resultCode == -1) {
+            Uri u = data.getData();
+            image.setImageURI(u);
+            refStr = storage.getReference("imagenes_posts");//imagenes_post
+            final StorageReference fotoReferencia = refStr.child(u.getLastPathSegment());
+            fotoReferencia.putFile(u).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(getContext(),"Se subio la foto exitosamente",Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

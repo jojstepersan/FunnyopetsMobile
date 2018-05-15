@@ -22,8 +22,9 @@
             android:textColor="@color/white"
             android:textSize="35dp" />
 
+
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/image_subir_foto"
             android:layout_width="match_parent"
             android:layout_height="285dp"
             android:layout_marginEnd="8dp"
@@ -32,7 +33,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_weight="20"
-            android:src="@drawable/post3"
+            android:src="@drawable/add"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,9 +51,9 @@
             android:gravity="center"
             android:text="@string/categoria"
             android:textSize="20dp"
-            app:layout_constraintEnd_toEndOf="@+id/imageView"
-            app:layout_constraintStart_toStartOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintEnd_toEndOf="@+id/image_subir_foto"
+            app:layout_constraintStart_toStartOf="@+id/image_subir_foto"
+            app:layout_constraintTop_toBottomOf="@+id/image_subir_foto" />
 
         <Spinner
             android:id="@+id/categorias_spinner"
@@ -64,7 +65,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_weight="2"
-            app:layout_constraintEnd_toEndOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="@+id/image_subir_foto"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/textView"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -105,7 +106,7 @@
             app:layout_constraintTop_toBottomOf="@+id/esta_adoptar" />
 
         <Button
-            android:id="@+id/email_sign_in_button"
+            android:id="@+id/btn_subir_foto"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
