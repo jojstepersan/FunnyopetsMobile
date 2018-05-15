@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -31,8 +30,6 @@ import java.util.List;
 import co.com.funnypets.funnypetsmobile.R;
 import co.com.funnypets.funnypetsmobile.activities.EditProfile;
 import co.com.funnypets.funnypetsmobile.activities.LoginActivity;
-import co.com.funnypets.funnypetsmobile.activities.MainActivity;
-import co.com.funnypets.funnypetsmobile.activities.ProfileActivity;
 import co.com.funnypets.funnypetsmobile.adapters.PhotosAdapter;
 import co.com.funnypets.funnypetsmobile.entities.Post;
 import co.com.funnypets.funnypetsmobile.entities.Usuario;

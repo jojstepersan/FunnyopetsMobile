@@ -22,7 +22,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -65,7 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
         ctnfo=findViewById(R.id.cntfollowers);
         nombre=findViewById(R.id.love_music);
         foto=findViewById(R.id.backdrop);
-        editProfile=findViewById(R.id.edit_profile_button);
+        editProfile=findViewById(R.id.settings_button);
        // img=usuariox.getUsuario();
         nombre.setText("Mario Herrera");//(usuariox.getUsuario());
         ctnp.setText(10+"");//(String.valueOf(usuariox.getCntFotos()));
