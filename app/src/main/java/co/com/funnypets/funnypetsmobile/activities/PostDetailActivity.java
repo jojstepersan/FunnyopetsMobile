@@ -31,7 +31,7 @@ import co.com.funnypets.funnypetsmobile.entities.Post;
 import co.com.funnypets.funnypetsmobile.entities.Usuario;
 
 public class PostDetailActivity extends AppCompatActivity {
-    List<Post> posts = new ArrayList<>();
+    static List<Post> posts = new ArrayList<>();
     private FirebaseAuth mAuth;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mFirebaseAuth;//mAuth
@@ -51,6 +51,25 @@ public class PostDetailActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
+
+
+
+
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Gracias por adoptar", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+    }
+    @Override
+public void onResume(){
+    super.onResume();
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference().child("posts");
@@ -72,7 +91,7 @@ public class PostDetailActivity extends AppCompatActivity {
 
             }
         });
-        Log.d("root", userID);
+            Log.d("root", userID);
         posts = new ArrayList<>();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -93,32 +112,26 @@ public class PostDetailActivity extends AppCompatActivity {
         Bundle extra= getIntent().getExtras();
         pos =extra.getInt("pos");
 
-
-
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Gracias por adoptar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-    }
+}
 
     private void showData(DataSnapshot ds) {
+        i=0;
         for (DataSnapshot dataSnapshot : ds.getChildren()) {
             Post post = new Post();
+            if(post!=null){
+                post.setName(ds.child((i) + "").getValue(Post.class).getName());
             post.setAdopcion(ds.child((i) + "").getValue(Post.class).isAdopcion());
             post.setCategoria(ds.child((i) + "").getValue(Post.class).getCategoria());
             post.setDescripcion(ds.child((i) + "").getValue(Post.class).getDescripcion());
             post.setUrlphotopost(ds.child((i) + "").getValue(Post.class).getUrlphotopost());
             post.setUsuario(ds.child((i) + "").getValue(Post.class).getUsuario());
             post.setNumOfLikes(ds.child((i) + "").getValue(Post.class).getNumOfLikes());
+                post.setGenero(ds.child((i) + "").getValue(Post.class).getGenero());
+
+                post.setEdad(ds.child((i) + "").getValue(Post.class).getEdad());
             posts.add(post);
             i++;
-
+}}
             TextView name = findViewById(R.id.Post_name2);
             TextView raza = findViewById(R.id.Post_raza);
             TextView gen = findViewById(R.id.Post_gen);
@@ -126,17 +139,17 @@ public class PostDetailActivity extends AppCompatActivity {
             TextView des = findViewById(R.id.Post_desc);
             ImageView foto=findViewById(R.id.backdrop);
 
-
             name.setText(posts.get(pos).getName());
             raza.setText(posts.get(pos).getCategoria());
-            gen.setText("Macho");
-            edad.setText("10");
+            gen.setText(posts.get(pos).getGenero());
+            edad.setText(posts.get(pos).getEdad());
             des.setText(posts.get(pos).getDescripcion());
             Glide.with(PostDetailActivity.this).load(posts.get(pos).getUrlphotopost()).fitCenter().centerCrop().into(foto);
             toolbar.setTitle(posts.get(pos).getName());
-        }
 
-        Log.d("post", "show data size: " + posts.size());
+
+
+        Log.d("post", "show data size: " + posts.size() +"");
 
     }
 

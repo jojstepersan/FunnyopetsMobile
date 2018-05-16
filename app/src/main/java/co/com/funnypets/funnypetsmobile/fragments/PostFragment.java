@@ -170,7 +170,9 @@ public class PostFragment extends Fragment {
     }
 
     private void showData(DataSnapshot ds) {
+        i=0;
         for (DataSnapshot dataSnapshot : ds.getChildren()) {
+
             Post post = new Post();
             post.setAdopcion(ds.child((i) + "").getValue(Post.class).isAdopcion());
             post.setCategoria(ds.child((i) + "").getValue(Post.class).getCategoria());
@@ -178,21 +180,11 @@ public class PostFragment extends Fragment {
             post.setUrlphotopost(ds.child((i) + "").getValue(Post.class).getUrlphotopost());
             post.setUsuario(ds.child((i) + "").getValue(Post.class).getUsuario());
             post.setNumOfLikes(ds.child((i) + "").getValue(Post.class).getNumOfLikes());
+            post.setName(ds.child((i) + "").getValue(Post.class).getName());
+            post.setEdad(ds.child((i) + "").getValue(Post.class).getEdad());
             posts.add(post);
             i++;
             adapter = new PostAdapter(getContext(), posts);
-            adapter.setOnclickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent hola=new Intent(getContext(), PostDetailActivity.class);
-                    startActivity(hola);
-                    Toast toast1 =
-                            Toast.makeText(getContext(),
-                                    "Toast por defecto", Toast.LENGTH_SHORT);
-
-                    toast1.show();
-                }
-            });
             recyclerView.setAdapter(adapter);
         }
 

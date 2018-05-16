@@ -9,6 +9,8 @@ public class Post {
     private String Urlphotopost;
     private String categoria;
     private boolean adopcion;
+    private String Edad;
+    private String genero;
     public Post(){}
     public Post(String name, Usuario usuario, String descripcion, int numOfLikes, String UrlPost) {
         this.name = name;
@@ -16,6 +18,22 @@ public class Post {
         this.descripcion = descripcion;
         this.numOfLikes = numOfLikes;
         this.Urlphotopost=UrlPost;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public String getEdad() {
+        return Edad;
+    }
+
+    public void setEdad(String edad) {
+        Edad = edad;
     }
 
     public String getName() {

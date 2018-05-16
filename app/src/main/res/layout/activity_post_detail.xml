@@ -212,7 +212,7 @@
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
         android:src="@drawable/icon_patita_white"
-        app:backgroundTint="@color/amber_900"
+        app:backgroundTint="#c68400"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right|end" />
 

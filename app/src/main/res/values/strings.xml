@@ -58,4 +58,10 @@
         <item>Cocodrilo</item>
     </string-array>
 
+    <string-array name="seso">
+        <item>Seleccione....</item>
+        <item>Macho</item>
+        <item>Hembra</item>
+    </string-array>
+
 </resources>

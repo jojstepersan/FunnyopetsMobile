@@ -30,6 +30,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> im
     public List<Post> postList;
     public Context mContext;
     private View.OnClickListener listener;
+    static boolean bo=false;
 
     public PostAdapter(Context mContext, List<Post> postList) {
         this.postList = postList;
@@ -52,6 +53,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> im
         Glide.with(mContext).load(postList.get(position).getUsuario().getUrlfoto()).fitCenter().centerCrop().into(holder.profile);
         Glide.with(mContext).load(postList.get(position).getUrlphotopost()).fitCenter().centerCrop().into(holder.post);
         holder.likes.setText(String.valueOf(postList.get(position).getNumOfLikes())+ " likes");
+        bo=false;
 
 
     }
@@ -107,8 +109,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> im
                                     "Has dado like", Toast.LENGTH_SHORT);
 
                     toast1.show();
+                    if(bo==false) {
+                        like.setImageResource(R.drawable.icon_heart_r);
+                    }if(bo==true){
+                        like.setImageResource(R.drawable.icon_heart);
+                    }
                 }
             });
+
+
+
+
             adoptar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

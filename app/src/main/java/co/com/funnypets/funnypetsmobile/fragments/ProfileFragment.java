@@ -21,8 +21,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -150,10 +154,40 @@ public class ProfileFragment extends Fragment {
         return  view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference().child("Usuarios/"+user.getUid());
+
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Usuario ux = dataSnapshot.getValue(Usuario.class);
+                nombre.setText(ux.getUsuario());//(usuariox.getUsuario());
+                ctnp.setText(String.valueOf(ux.getCntFotos()));//(String.valueOf(usuariox.getCntFotos()));
+                ctnf.setText(String.valueOf(ux.getCntFollowing()));//(String.valueOf(usuariox.getCntFollowing()));
+                ctnfo.setText(String.valueOf(ux.getCntFollowers()));
+                Glide.with(getContext()).load(ux.getUrlfoto()).fitCenter().centerCrop().into(foto);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
+
+
         }
     }
 
