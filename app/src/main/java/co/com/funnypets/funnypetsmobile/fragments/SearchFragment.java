@@ -15,6 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +52,8 @@ public class SearchFragment extends Fragment {
     ArrayList<Usuario> usuarios=new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference mDatabase = database.getReference("Usuarios");
 
     public SearchFragment() {
         // Required empty public constructor
@@ -87,24 +95,22 @@ public class SearchFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new SearchFragment.GridSpacingItemDecoration(1, dpToPx(2), true));
+//        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-        Usuario usuario;
+                usuarios.removeAll(usuarios);
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Usuario usuario = snapshot.getValue(Usuario.class);
+                    usuarios.add(usuario);
+                }
+            }
 
-        usuario=new Usuario();
-        usuario.setUsuario("Jojha Stiven perdomo");
-        usuario.setUrlfoto("https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2FDSCN8293.JPG?alt=media&token=a15a4445-08cf-45d2-8b05-66c084309df0");
-        usuarios.add(usuario);
-
-        usuario=new Usuario();
-        usuario.setUsuario("Mario Herrera");
-        usuario.setUrlfoto("https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2F20881853_1749211925092389_4384820394433587108_n.jpg?alt=media&token=af5e99fd-6936-4c7c-8463-0f2096560e29");
-        usuarios.add(usuario);
-
-        usuario=new Usuario();
-        usuario.setUsuario("juan felipe buitrago");
-        usuario.setUrlfoto("https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2F21687944_1674164502595781_6556764894954520245_n.jpg?alt=media&token=cc9db31a-855e-4896-a85d-2fdb7eb328c0");
-        usuarios.add(usuario);
-        Log.d("user",usuarios.size()+" totales");
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
         adapter=new SearchAdapter(usuarios,getContext());
         recyclerView.setAdapter(adapter);
 
