@@ -11,6 +11,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,7 @@ import co.com.funnypets.funnypetsmobile.R;
 import co.com.funnypets.funnypetsmobile.activities.EditProfile;
 import co.com.funnypets.funnypetsmobile.activities.LoginActivity;
 import co.com.funnypets.funnypetsmobile.adapters.PhotosAdapter;
+import co.com.funnypets.funnypetsmobile.adapters.PostAdapter;
 import co.com.funnypets.funnypetsmobile.entities.Post;
 import co.com.funnypets.funnypetsmobile.entities.Usuario;
 
@@ -58,7 +60,7 @@ public class ProfileFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private PhotosAdapter adapter;
-    private List<Post> albumList;
+    private List<Post> posts;
     private Usuario usuario= new Usuario();
     private String img="IMG";
     private static final String TAG = "LogsAndroid";
@@ -67,8 +69,10 @@ public class ProfileFragment extends Fragment {
     private TextView ctnfo;
     private TextView nombre;
     private ImageView foto;
+    private ImageView portada;
     private Button editProfile;
     private Button signout;
+    int i=0;
 
     private OnFragmentInteractionListener mListener;
 
@@ -115,6 +119,7 @@ public class ProfileFragment extends Fragment {
         nombre=view.findViewById(R.id.love_music);
         foto=view.findViewById(R.id.backdrop);
         editProfile=view.findViewById(R.id.edit_profile_button);
+        portada=view.findViewById(R.id.portada);
         // img=usuariox.getUsuario();
         nombre.setText("Mario Herrera");//(usuariox.getUsuario());
         ctnp.setText(10+"");//(String.valueOf(usuariox.getCntFotos()));
@@ -135,8 +140,8 @@ public class ProfileFragment extends Fragment {
         //   String userid=b.getString("ID");
        // initCollapsingToolbar();
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        albumList = new ArrayList<>();
-        adapter = new PhotosAdapter(getContext(), albumList);
+        posts = new ArrayList<>();
+        adapter = new PhotosAdapter(getContext(), posts);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -168,7 +173,7 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Usuario ux = dataSnapshot.getValue(Usuario.class);
                 nombre.setText(ux.getUsuario());//(usuariox.getUsuario());
-                ctnp.setText(String.valueOf(ux.getCntFotos()));//(String.valueOf(usuariox.getCntFotos()));
+                //ctnp.setText(String.valueOf(ux.getCntFotos()));//(String.valueOf(usuariox.getCntFotos()));
                 ctnf.setText(String.valueOf(ux.getCntFollowing()));//(String.valueOf(usuariox.getCntFollowing()));
                 ctnfo.setText(String.valueOf(ux.getCntFollowers()));
                 Glide.with(getContext()).load(ux.getUrlfoto()).fitCenter().centerCrop().into(foto);
@@ -222,49 +227,88 @@ public class ProfileFragment extends Fragment {
     }
 
     private void prepareAlbums() {
-        DatabaseReference ref= FirebaseDatabase.getInstance().getReference("post");
+        DatabaseReference myRef= FirebaseDatabase.getInstance().getReference("posts");
 
+        posts = new ArrayList<>();
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                showData(dataSnapshot);
+            }
 
-        Post a = new Post("Señor bigotes", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fgato-enfermo.jpg?alt=media&token=584353d8-51ad-4325-b6fd-e843d607f494");
-        albumList.add(a);
-        ref.setValue(a);
-        a = new Post("golden wolf", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fgolden.jpg?alt=media&token=f1a6bd9d-7d0e-4f25-a771-9a13ade9c757");
-        albumList.add(a);
-        ref.setValue(a);
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-        a = new Post("doriti", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fimg_por_que_mi_gato_no_se_deja_tocar_22745_paso_0_600.jpg?alt=media&token=ae62aaea-c1bc-4e08-b253-7bb73ecfb496");
-        albumList.add(a);
-        ref.setValue(a);
+            }
+        });
+    //   Post a = new Post("Señor bigotes", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fgato-enfermo.jpg?alt=media&token=584353d8-51ad-4325-b6fd-e843d607f494");
+     //   albumList.add(a);
+     //   ref.setValue(a);
+     //   a = new Post("golden wolf", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fgolden.jpg?alt=media&token=f1a6bd9d-7d0e-4f25-a771-9a13ade9c757");
+     //   albumList.add(a);
+     //   ref.setValue(a);
 
-        a = new Post("loreta", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Floros-800x375.jpg?alt=media&token=b54e34ee-89fe-4ac1-af21-1aa341320847");
-        albumList.add(a);
-        ref.setValue(a);
+      //  a = new Post("doriti", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fimg_por_que_mi_gato_no_se_deja_tocar_22745_paso_0_600.jpg?alt=media&token=ae62aaea-c1bc-4e08-b253-7bb73ecfb496");
+        //albumList.add(a);
+        //ref.setValue(a);
 
-        a = new Post("ratatouille", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fmaxresdefault.jpg?alt=media&token=3cedbd42-3c84-4c3e-9c96-74b087497d8b");
-        albumList.add(a);
-        ref.setValue(a);
+        //a = new Post("loreta", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Floros-800x375.jpg?alt=media&token=b54e34ee-89fe-4ac1-af21-1aa341320847");
+        //albumList.add(a);
+        //ref.setValue(a);
 
-        a = new Post("firulais", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fdownload.jpg?alt=media&token=563cf696-bd98-4586-8ddc-4054e56c4760");
-        albumList.add(a);
-        ref.setValue(a);
+       // a = new Post("ratatouille", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fmaxresdefault.jpg?alt=media&token=3cedbd42-3c84-4c3e-9c96-74b087497d8b");
+        //albumList.add(a);
+        //ref.setValue(a);
 
-        a = new Post("coco", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2F82a78fb04d2bec18a6194762e51d2328.jpg?alt=media&token=2fd6b703-0bff-454a-bcb4-d8f1db54293e");
-        albumList.add(a);
-        ref.setValue(a);
+      //  a = new Post("firulais", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fdownload.jpg?alt=media&token=563cf696-bd98-4586-8ddc-4054e56c4760");
+        //albumList.add(a);
+        //ref.setValue(a);
 
-        a = new Post("viento salvaje", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fcuarto-de-milla.jpg?alt=media&token=a7bbc3f5-14c8-4f16-a3fb-c16e21f96965");
-        albumList.add(a);
-        ref.setValue(a);
+      //  a = new Post("coco", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2F82a78fb04d2bec18a6194762e51d2328.jpg?alt=media&token=2fd6b703-0bff-454a-bcb4-d8f1db54293e");
+       // albumList.add(a);
+      //  ref.setValue(a);
 
-        a = new Post("gemelos maravilla", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2F_96315422_gettyimages-579742898.jpg?alt=media&token=35e1bd32-606f-4ad8-86e4-fa8f48d799c1");
-        albumList.add(a);
+       // a = new Post("viento salvaje", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fcuarto-de-milla.jpg?alt=media&token=a7bbc3f5-14c8-4f16-a3fb-c16e21f96965");
+       // albumList.add(a);
+       // ref.setValue(a);
 
-        ref.setValue(a);
-        a = new Post("lamento boliviano", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2FSLIDER-Europesecultuurvogels.jpg?alt=media&token=4570a44d-76a4-4812-854c-291a91e93076");
-        albumList.add(a);
-        ref.setValue(a);
+      //  a = new Post("gemelos maravilla", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2F_96315422_gettyimages-579742898.jpg?alt=media&token=35e1bd32-606f-4ad8-86e4-fa8f48d799c1");
+      //  albumList.add(a);
+
+       // ref.setValue(a);
+      //  a = new Post("lamento boliviano", new Usuario(),"",13, "https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2FSLIDER-Europesecultuurvogels.jpg?alt=media&token=4570a44d-76a4-4812-854c-291a91e93076");
+      //  albumList.add(a);
+      //  ref.setValue(a);
 
         adapter.notifyDataSetChanged();
+    }
+    private void showData(DataSnapshot ds) {
+        i=0;
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        for (DataSnapshot dataSnapshot : ds.getChildren()) {
+
+            Post post = new Post();
+            post.setAdopcion(ds.child((i) + "").getValue(Post.class).isAdopcion());
+            post.setCategoria(ds.child((i) + "").getValue(Post.class).getCategoria());
+            post.setDescripcion(ds.child((i) + "").getValue(Post.class).getDescripcion());
+            post.setUrlphotopost(ds.child((i) + "").getValue(Post.class).getUrlphotopost());
+            post.setUsuario(ds.child((i) + "").getValue(Post.class).getUsuario());
+            post.setNumOfLikes(ds.child((i) + "").getValue(Post.class).getNumOfLikes());
+            post.setName(ds.child((i) + "").getValue(Post.class).getName());
+            post.setEdad(ds.child((i) + "").getValue(Post.class).getEdad());
+            if(post.getUsuario().getCorreo().equals(user.getEmail())){
+                posts.add(post);
+            }
+            i++;
+            adapter = new PhotosAdapter(getContext(), posts);
+            recyclerView.setAdapter(adapter);
+        }
+
+        Log.d("post", "show data size: " + posts.size());
+        ctnp.setText(String.valueOf(posts.size()));
+        Glide.with(getContext()).load(posts.get(0).getUrlphotopost()).fitCenter().centerCrop().into(portada);
+
+
     }
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 

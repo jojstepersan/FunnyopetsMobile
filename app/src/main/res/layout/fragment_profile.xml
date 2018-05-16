@@ -83,11 +83,11 @@
                         android:translationZ="7dp" />
 
                     <ImageView
-                        android:id="@+id/imageView"
+                        android:id="@+id/portada"
                         android:layout_width="match_parent"
                         android:layout_height="131dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/post5" />
+                      />
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/backdrop"
@@ -149,7 +149,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Fotos"
+                                    android:text="Post"
                                     android:textColor="@color/album_title"
                                     android:textSize="15dp"
                                     android:textStyle="bold" />
