@@ -14,6 +14,11 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -191,5 +196,37 @@ public class SearchFragment extends Fragment {
     private int dpToPx(int dp) {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get Post object and use the values to update the UI
+                Post post = dataSnapshot.getValue(Post.class);
+            /*    // [START_EXCLUDE]
+                mAuthorView.setText(post.author);
+                mTitleView.setText(post.title);
+                mBodyView.setText(post.body);
+                // [END_EXCLUDE]*/
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                // [END_EXCLUDE]
+            }
+        };
+        //mPostReference.addValueEventListener(postListener);
+        // [END post_value_event_listener]
+
+        // Keep copy of post listener so we can remove it when app stops
+       // mPostListener = postListener;
+
+        // Listen for comments
+      //  mAdapter = new CommentAdapter(this, mCommentsReference);
+      //  mCommentsRecycler.setAdapter(mAdapter);
     }
 }

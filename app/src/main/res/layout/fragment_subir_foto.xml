@@ -1,78 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.subirFotoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/textView2"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:textAlignment="center"
-            android:text="Funny pest"
+            android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
-            android:textColor="@color/white"
-            android:fontFamily="sans-serif-condensed"
             android:background="@color/colorPrimary"
-            android:textSize="40dp"
-            />
+            android:fontFamily="sans-serif-condensed"
+            android:text="@string/funny_pest"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="35dp" />
+
+
         <ImageView
+            android:id="@+id/image_subir_foto"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="285dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="20"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:src="@drawable/post3"/>
+            android:src="@drawable/add"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/categoria"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="@+id/image_subir_foto"
+            app:layout_constraintStart_toStartOf="@+id/image_subir_foto"
+            app:layout_constraintTop_toBottomOf="@+id/image_subir_foto" />
+
         <Spinner
             android:id="@+id/categorias_spinner"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
             android:layout_width="fill_parent"
-
             android:layout_height="wrap_content"
-            android:layout_weight="2"/>
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="2"
+            app:layout_constraintEnd_toEndOf="@+id/image_subir_foto"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <Switch
             android:id="@+id/esta_adoptar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="5dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="2"
+            android:gravity="center"
             android:paddingLeft="5dp"
+            android:text="Dar en adopción"
             android:textSize="18dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="Dar en adopción" />
-
+            app:layout_constraintEnd_toEndOf="@+id/categorias_spinner"
+            app:layout_constraintStart_toStartOf="@+id/categorias_spinner"
+            app:layout_constraintTop_toBottomOf="@+id/categorias_spinner" />
 
         <EditText
+            android:id="@+id/editText"
             android:layout_width="match_parent"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="2"
-            android:textColor="@color/gray"
-            android:hint="Descripcion"/>
+            android:maxLength="150"
+            android:hint="Descripción"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/esta_adoptar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/esta_adoptar" />
+
         <Button
-            android:id="@+id/email_sign_in_button"
+            android:id="@+id/btn_subir_foto"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
-            android:layout_weight="2"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="10dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="2"
             android:background="@drawable/buttonstyle"
             android:text="@string/publicar"
+            android:textColor="@color/white"
             android:textStyle="bold"
-            />
+            app:layout_constraintEnd_toEndOf="@+id/editText"
+            app:layout_constraintStart_toStartOf="@+id/editText"
+            app:layout_constraintTop_toBottomOf="@+id/editText" />
 
-    </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+    <!-- TODO: Update blank fragment layout-->
 
 </FrameLayout>
