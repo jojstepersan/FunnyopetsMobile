@@ -64,6 +64,12 @@ public class PostDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Gracias por adoptar", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                Intent intent2;
+                intent2 = new Intent(PostDetailActivity.this, ChatActivity.class);
+                startActivity(intent2);
+
+
+
             }
         });
     }
