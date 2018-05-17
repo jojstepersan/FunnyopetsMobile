@@ -9,11 +9,17 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -42,7 +48,7 @@ import co.com.funnypets.funnypetsmobile.entities.Usuario;
  * Use the {@link SearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -59,6 +65,7 @@ public class SearchFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference mDatabase = database.getReference("Usuarios");
+    private AutoCompleteTextView autoCompleteTextView = null;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -89,6 +96,23 @@ public class SearchFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        autoCompleteTextView = autoCompleteTextView.findViewById(R.id.search_btn);
+        autoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filter(usuarios,s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @Override
@@ -100,7 +124,6 @@ public class SearchFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new SearchFragment.GridSpacingItemDecoration(1, dpToPx(2), true));
-//        mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -142,6 +165,36 @@ public class SearchFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        try {
+            ArrayList<Usuario> listaFiltrada = filter(usuarios,newText);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    public ArrayList<Usuario> filter(ArrayList<Usuario> lista,String query) {
+        ArrayList<Usuario> listaFilter = new ArrayList<Usuario>();
+        try {
+            query = query.toLowerCase();
+            for (Usuario usuario: lista) {
+                if (usuario.getUsuario().toLowerCase().contains(query)) {
+                    listaFilter.add(usuario);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return listaFilter;
     }
 
     /**
