@@ -21,10 +21,11 @@ import co.com.funnypets.funnypetsmobile.activities.ProfileActivity;
 import co.com.funnypets.funnypetsmobile.entities.Post;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
+public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> implements View.OnClickListener{
 
     public List<Post> postList;
     public Context mContext;
+    private View.OnClickListener listener;
 
     public PostAdapter(Context mContext, List<Post> postList) {
         this.postList = postList;
@@ -48,9 +49,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.likes.setText(String.valueOf(postList.get(position).getNumOfLikes())+ " likes");
     }
 
+    public void setOnclickListener(View.OnClickListener listener){
+
+        this.listener=listener;
+    }
     @Override
     public int getItemCount() {
         return postList.size();
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(listener!=null){}
+        listener.onClick(view);
+
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

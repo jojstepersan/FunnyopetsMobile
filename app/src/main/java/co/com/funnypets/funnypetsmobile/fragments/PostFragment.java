@@ -18,8 +18,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,13 +50,15 @@ public class PostFragment extends Fragment {
 
     private PostAdapter adapter;
     private RecyclerView recyclerView;
-    List<Post>  posts=new ArrayList<>();  private FirebaseAuth mAuth;
+    List<Post> posts = new ArrayList<>();
+    private FirebaseAuth mAuth;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mFirebaseAuth;//mAuth
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
-    private  String userID;
-
+    public static String userID;
+    public static Usuario usuario;
+    public static int i = 0;
 
 
     public PostFragment() {
@@ -96,12 +96,29 @@ public class PostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //traer la base de datos
-        mFirebaseAuth=FirebaseAuth.getInstance();
-        mFirebaseDatabase=FirebaseDatabase.getInstance();
-        myRef=mFirebaseDatabase.getReference().child("posts");
-        FirebaseUser user=mFirebaseAuth.getCurrentUser();
-        userID=user.getUid();
-        posts=new ArrayList<>();
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference().child("posts");
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        userID = user.getUid();
+        DatabaseReference userRef = mFirebaseDatabase.getReference().child("Usuarios");
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("root", dataSnapshot.child(userID) + "");
+                usuario=new Usuario();
+                usuario.setUrlfoto(dataSnapshot.child(userID).getValue(Usuario.class).getUrlfoto());
+                usuario.setUsuario(dataSnapshot.child(userID).getValue(Usuario.class).getUsuario());
+                usuario.setCorreo(dataSnapshot.child(userID).getValue(Usuario.class).getCorreo());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        Log.d("root", userID);
+        posts = new ArrayList<>();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -114,27 +131,57 @@ public class PostFragment extends Fragment {
             }
         });
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_post, container, false);
-        recyclerView=view.findViewById(R.id.recycler_view_post);
+        Log.d("home", "inflate");
+        View view = inflater.inflate(R.layout.fragment_post, container, false);
+        recyclerView = view.findViewById(R.id.recycler_view_post);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+       /* List<Post>  posts=new ArrayList<>();
+        Usuario usuario=new Usuario();
+        usuario.setUsuario("Stiven Perdomo");
+        Post post;
+        post=new Post("el perrito lendo",usuario,"Lo mas lendo del mundo el perrito lendo",20,"https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fgolden.jpg?alt=media&token=f1a6bd9d-7d0e-4f25-a771-9a13ade9c757");
+        posts.add(post);
+        post=new Post("el gato lendo",usuario,"Lo mas lendo del mundo el gato lendo",20,"https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fgolden.jpg?alt=media&token=f1a6bd9d-7d0e-4f25-a771-9a13ade9c757");
+        posts.add(post);
+        usuario=new Usuario();
+        usuario.setUsuario("Kevin alberto");
+        post=new Post("el perico lendo",usuario,"Lo mas lendo del mundo el perico lendo",20,"https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fgolden.jpg?alt=media&token=f1a6bd9d-7d0e-4f25-a771-9a13ade9c757");
+        posts.add(post);
+        post=new Post("la perra esa",usuario,"Lo mas lendo del mundo la perra esa",20,"https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fimage%3A5239?alt=media&token=65b04ad4-401c-4a0b-8274-d4ce7d2d5156");
+        posts.add(post);
+        usuario=new Usuario();
+        usuario.setUsuario("MARIO BROSS");
+        post=new Post("el tiger",usuario,"Lo mas lendo del mundo el tiger",20,"https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fimage%3A5239?alt=media&token=65b04ad4-401c-4a0b-8274-d4ce7d2d5156");
+        posts.add(post);
+        adapter=new PostAdapter(getContext(),posts);
+
+        adapter.setOnclickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent next = new Intent(getContext(), PostDetailActivity.class);
+                startActivity(next);
+            }
+        });*/
+        recyclerView.setAdapter(adapter);
         return view;
     }
 
     private void showData(DataSnapshot ds) {
-        int i=0;
-        for (DataSnapshot dataSnapshot:ds.getChildren()) {
-               Post post=new Post();
-               post.setDescripcion(ds.child((i)+"").getValue(Post.class).getDescripcion());
-               post.setUrlphotopost(ds.child((i)+"").getValue(Post.class).getUrlphotopost());
-               post.setUsuario(ds.child((i)+"").getValue(Post.class).getUsuario());
-               post.setNumOfLikes(ds.child((i)+"").getValue(Post.class).getNumOfLikes());
-               posts.add(post);
-               i++;
-               adapter=new PostAdapter(getContext(),posts);
-               recyclerView.setAdapter(adapter);
+        for (DataSnapshot dataSnapshot : ds.getChildren()) {
+            Post post = new Post();
+            post.setAdopcion(ds.child((i) + "").getValue(Post.class).isAdopcion());
+            post.setCategoria(ds.child((i) + "").getValue(Post.class).getCategoria());
+            post.setDescripcion(ds.child((i) + "").getValue(Post.class).getDescripcion());
+            post.setUrlphotopost(ds.child((i) + "").getValue(Post.class).getUrlphotopost());
+            post.setUsuario(ds.child((i) + "").getValue(Post.class).getUsuario());
+            post.setNumOfLikes(ds.child((i) + "").getValue(Post.class).getNumOfLikes());
+            posts.add(post);
+            i++;
+            adapter = new PostAdapter(getContext(), posts);
+            recyclerView.setAdapter(adapter);
         }
 
-        Log.d("post","show data size: "+posts.size());
+        Log.d("post", "show data size: " + posts.size());
 
     }
 
@@ -152,7 +199,7 @@ public class PostFragment extends Fragment {
             mListener = (OnFragmentInteractionListener) context;
         } else {
 //            throw new RuntimeException(context.toString()
-  //                  + " must implement OnFragmentInteractionListener");
+            //                  + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -176,6 +223,4 @@ public class PostFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-
 }

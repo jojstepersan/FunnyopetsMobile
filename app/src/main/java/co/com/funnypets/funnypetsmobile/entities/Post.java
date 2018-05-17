@@ -7,7 +7,8 @@ public class Post {
     private String  descripcion;
     private int numOfLikes;
     private String Urlphotopost;
-
+    private String categoria;
+    private boolean adopcion;
     public Post(){}
     public Post(String name, Usuario usuario, String descripcion, int numOfLikes, String UrlPost) {
         this.name = name;
@@ -55,5 +56,21 @@ public class Post {
 
     public void setUrlphotopost(String urlphotopost) {
         Urlphotopost = urlphotopost;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public boolean isAdopcion() {
+        return adopcion;
+    }
+
+    public void setAdopcion(boolean adopcion) {
+        this.adopcion = adopcion;
     }
 }

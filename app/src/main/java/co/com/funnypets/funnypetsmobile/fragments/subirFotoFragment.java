@@ -12,21 +12,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.ServerValue;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.util.concurrent.Executor;
-
 import co.com.funnypets.funnypetsmobile.R;
-import co.com.funnypets.funnypetsmobile.entities.MensajeEnviar;
+import co.com.funnypets.funnypetsmobile.entities.Post;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,11 +49,17 @@ public class subirFotoFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
-    private FirebaseStorage storage=FirebaseStorage.getInstance();
+    private FirebaseDatabase mFirebaseDatabase;
+    private FirebaseAuth mFirebaseAuth;//mAuth
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference myRef;
+    private String userID;
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference refStr;
-    private static final int GALERY_INTENT=1;
+    private static final int GALERY_INTENT = 1;
     private ImageView image;
+    private Uri u;
+    private Post post;
 
     public subirFotoFragment() {
         // Required empty public constructor
@@ -88,32 +96,55 @@ public class subirFotoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_subir_foto, container, false);
-        image=view.findViewById(R.id.image_subir_foto);
+        View view = inflater.inflate(R.layout.fragment_subir_foto, container, false);
+        image = view.findViewById(R.id.image_subir_foto);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Image_touch","imagen....");
-                Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Log.d("Image_touch", "imagen....");
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.setType("image/");
-                startActivityForResult(intent.createChooser(intent,"Seleccione una imagen"),GALERY_INTENT);
+                startActivityForResult(intent.createChooser(intent, "Seleccione una imagen"), GALERY_INTENT);
 
             }
         });
-        Spinner spinner = (Spinner) view.findViewById(R.id.categorias_spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),R.array.planets_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
+        final Spinner spinner =  view.findViewById(R.id.categorias_spinner);
+        final EditText descripcion = view.findViewById(R.id.editText);
+        final Switch adopcion=view.findViewById(R.id.esta_adoptar);
+        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.planets_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
-        Button btnSubirFoto=view.findViewById(R.id.btn_subir_foto);
+        Button btnSubirFoto = view.findViewById(R.id.btn_subir_foto);
         btnSubirFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            intent.setType("image/");
-            startActivityForResult(intent.createChooser(intent,"Seleccione una imagen"),GALERY_INTENT);
+                refStr = storage.getReference("imagenes_posts");//imagenes_post
+                final StorageReference fotoReferencia = refStr.child(u.getLastPathSegment());
+                fotoReferencia.putFile(u).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                        post = new Post();
+                        adopcion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                post.setAdopcion(isChecked);
+                            }
+                        });
+                        post.setDescripcion(descripcion.getText().toString());
+                        post.setNumOfLikes(0);
+                        post.setUsuario(PostFragment.usuario);
+                        post.setCategoria(spinner.getSelectedItem().toString());
+                        post.setUrlphotopost(taskSnapshot.getDownloadUrl().toString());
+                        Toast.makeText(getContext(), "Se subio la foto exitosamente ", Toast.LENGTH_SHORT).show();
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("posts/" + PostFragment.i);
+                        ref.setValue(post);
+                        DatabaseReference ref2=FirebaseDatabase.getInstance().getReference("Usuarios").child(PostFragment.userID).child("posts/" + PostFragment.i++);
+                        post.setUsuario(null);
+                        ref2.setValue(post);
+                    }
+                });
+                //post.setUsuario(FirebaseAuth.getInstance().getCurrentUser());
             }
         });
         return view;
@@ -159,17 +190,10 @@ public class subirFotoFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == GALERY_INTENT && resultCode == -1) {
-            Uri u = data.getData();
+        if (requestCode == GALERY_INTENT && resultCode == -1) {
+            u = data.getData();
             image.setImageURI(u);
-            refStr = storage.getReference("imagenes_posts");//imagenes_post
-            final StorageReference fotoReferencia = refStr.child(u.getLastPathSegment());
-            fotoReferencia.putFile(u).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(getContext(),"Se subio la foto exitosamente",Toast.LENGTH_SHORT).show();
-                }
-            });
+            /* */
         }
     }
 }
