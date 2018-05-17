@@ -56,7 +56,7 @@ public class PostFragment extends Fragment {
     private FirebaseAuth mFirebaseAuth;//mAuth
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
-    private static String userID;
+    public static String userID;
     public static Usuario usuario;
     public static int i = 0;
 
@@ -167,9 +167,10 @@ public class PostFragment extends Fragment {
     }
 
     private void showData(DataSnapshot ds) {
-        int i = 0;
         for (DataSnapshot dataSnapshot : ds.getChildren()) {
             Post post = new Post();
+            post.setAdopcion(ds.child((i) + "").getValue(Post.class).isAdopcion());
+            post.setCategoria(ds.child((i) + "").getValue(Post.class).getCategoria());
             post.setDescripcion(ds.child((i) + "").getValue(Post.class).getDescripcion());
             post.setUrlphotopost(ds.child((i) + "").getValue(Post.class).getUrlphotopost());
             post.setUsuario(ds.child((i) + "").getValue(Post.class).getUsuario());

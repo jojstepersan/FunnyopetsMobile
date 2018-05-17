@@ -12,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -57,6 +59,7 @@ public class subirFotoFragment extends Fragment {
     private static final int GALERY_INTENT = 1;
     private ImageView image;
     private Uri u;
+    private Post post;
 
     public subirFotoFragment() {
         // Required empty public constructor
@@ -105,9 +108,10 @@ public class subirFotoFragment extends Fragment {
 
             }
         });
-        final Spinner spinner = (Spinner) view.findViewById(R.id.categorias_spinner);
+        final Spinner spinner =  view.findViewById(R.id.categorias_spinner);
         final EditText descripcion = view.findViewById(R.id.editText);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.planets_array, android.R.layout.simple_spinner_item);
+        final Switch adopcion=view.findViewById(R.id.esta_adoptar);
+        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.planets_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         Button btnSubirFoto = view.findViewById(R.id.btn_subir_foto);
@@ -120,15 +124,24 @@ public class subirFotoFragment extends Fragment {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                        Post post = new Post();
+                        post = new Post();
+                        adopcion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                post.setAdopcion(isChecked);
+                            }
+                        });
                         post.setDescripcion(descripcion.getText().toString());
                         post.setNumOfLikes(0);
                         post.setUsuario(PostFragment.usuario);
-                        Log.d("url", spinner.getSelectedItem().toString());
+                        post.setCategoria(spinner.getSelectedItem().toString());
                         post.setUrlphotopost(taskSnapshot.getDownloadUrl().toString());
                         Toast.makeText(getContext(), "Se subio la foto exitosamente ", Toast.LENGTH_SHORT).show();
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("posts/" + PostFragment.i++);
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("posts/" + PostFragment.i);
                         ref.setValue(post);
+                        DatabaseReference ref2=FirebaseDatabase.getInstance().getReference("Usuarios").child(PostFragment.userID).child("posts/" + PostFragment.i++);
+                        post.setUsuario(null);
+                        ref2.setValue(post);
                     }
                 });
                 //post.setUsuario(FirebaseAuth.getInstance().getCurrentUser());
