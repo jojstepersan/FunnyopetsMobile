@@ -58,7 +58,7 @@ public class PostFragment extends Fragment {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
     private  String userID;
-
+    public static int i=0;
 
 
     public PostFragment() {
@@ -112,7 +112,33 @@ public class PostFragment extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        });/*
+        Usuario usuario=new Usuario();
+        usuario.setUrlfoto("https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2F20881853_1749211925092389_4384820394433587108_n.jpg?alt=media&token=af5e99fd-6936-4c7c-8463-0f2096560e29");
+        usuario.setUsuario("Mario Herrera");
+        Post post;
+        post=new Post(""
+                ,usuario,"Mi perrito ya no puedo vivir mas con nosotros ya que nos vamos del pais, asi que con el dolor del alma tendremos que dejarlo en adopcion, el es super tierno",20,"https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fgolden.jpg?alt=media&token=f1a6bd9d-7d0e-4f25-a771-9a13ade9c757");
+        posts.add(post);
+        post=new Post("el gato lendo",usuario,"El es ratatouille, es un super buen compañero, pero ya no puede estar mas conmigo ya que mi gato se lo quiere comer :'(",20,"https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fmaxresdefault.jpg?alt=media&token=3cedbd42-3c84-4c3e-9c96-74b087497d8b");
+        posts.add(post);
+        usuario=new Usuario();
+        usuario.setUrlfoto("https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2F21687944_1674164502595781_6556764894954520245_n.jpg?alt=media&token=cc9db31a-855e-4896-a85d-2fdb7eb328c0");
+        usuario.setUsuario("Juan Felipe");
+        post=new Post("el perico lendo",usuario,"Ella es loreta, la queremos mandar a una finca para que tenga mas liberta, algun interesado porvafor comuniquese",20,"https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Floros-800x375.jpg?alt=media&token=b54e34ee-89fe-4ac1-af21-1aa341320847");
+        posts.add(post);
+        post=new Post("la perra esa",usuario,"Ella es dolores, acaba de dar a luz y estamos regalando sus crias, interesados por inbox",20,"https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fimg_por_que_mi_gato_no_se_deja_tocar_22745_paso_0_600.jpg?alt=media&token=ae62aaea-c1bc-4e08-b253-7bb73ecfb496");
+        posts.add(post);
+        usuario=new Usuario();
+        usuario.setUrlfoto("https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2FDSCN8293.JPG?alt=media&token=a15a4445-08cf-45d2-8b05-66c084309df0");
+        usuario.setUsuario("Stiven Perdomo");
+        post=new Post("el tiger",usuario,"mi bigotes esta muy enfermo alguen recomienda un buen lugar para que me lo revisen",20,"https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fgato-enfermo.jpg?alt=media&token=584353d8-51ad-4325-b6fd-e843d607f494");
+        posts.add(post);
+        DatabaseReference ref= FirebaseDatabase.getInstance().getReference("posts");
+       // ref.setValue(posts);
+
+        adapter=new PostAdapter(getContext(),posts);
+        recyclerView.setAdapter(adapter);*/
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_post, container, false);
         recyclerView=view.findViewById(R.id.recycler_view_post);
@@ -121,7 +147,6 @@ public class PostFragment extends Fragment {
     }
 
     private void showData(DataSnapshot ds) {
-        int i=0;
         for (DataSnapshot dataSnapshot:ds.getChildren()) {
                Post post=new Post();
                post.setDescripcion(ds.child((i)+"").getValue(Post.class).getDescripcion());

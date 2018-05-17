@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +18,13 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -27,6 +34,7 @@ import java.util.concurrent.Executor;
 
 import co.com.funnypets.funnypetsmobile.R;
 import co.com.funnypets.funnypetsmobile.entities.MensajeEnviar;
+import co.com.funnypets.funnypetsmobile.entities.Post;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,6 +60,7 @@ public class subirFotoFragment extends Fragment {
     private StorageReference refStr;
     private static final int GALERY_INTENT=1;
     private ImageView image;
+    private Uri u;
 
     public subirFotoFragment() {
         // Required empty public constructor
@@ -100,7 +109,7 @@ public class subirFotoFragment extends Fragment {
 
             }
         });
-        Spinner spinner = (Spinner) view.findViewById(R.id.categorias_spinner);
+        final Spinner spinner = (Spinner) view.findViewById(R.id.categorias_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),R.array.planets_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
@@ -111,9 +120,25 @@ public class subirFotoFragment extends Fragment {
         btnSubirFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            intent.setType("image/");
-            startActivityForResult(intent.createChooser(intent,"Seleccione una imagen"),GALERY_INTENT);
+                refStr = storage.getReference("imagenes_posts");//imagenes_post
+                final StorageReference fotoReferencia = refStr.child(u.getLastPathSegment());
+                fotoReferencia.putFile(u).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                        Post post=new Post();
+                        post.setDescripcion("");
+                        post.setNumOfLikes(0);
+                        Log.d("url",spinner.getSelectedItem().toString());
+                        post.setUrlphotopost(taskSnapshot.getDownloadUrl().toString());
+                        Toast.makeText(getContext(),"Se subio la foto exitosamente ",Toast.LENGTH_SHORT).show();
+                        DatabaseReference ref=FirebaseDatabase.getInstance().getReference("posts/"+PostFragment.i++);
+                      //  ref.child(ref.getKey()).setValue(post);
+                       // Log.d("url",ref.);
+                        ref.setValue(post);
+                    }
+                });
+                //post.setUsuario(FirebaseAuth.getInstance().getCurrentUser());
             }
         });
         return view;
@@ -160,16 +185,9 @@ public class subirFotoFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == GALERY_INTENT && resultCode == -1) {
-            Uri u = data.getData();
+            u = data.getData();
             image.setImageURI(u);
-            refStr = storage.getReference("imagenes_posts");//imagenes_post
-            final StorageReference fotoReferencia = refStr.child(u.getLastPathSegment());
-            fotoReferencia.putFile(u).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(getContext(),"Se subio la foto exitosamente",Toast.LENGTH_SHORT).show();
-                }
-            });
+           /* */
         }
     }
 }
