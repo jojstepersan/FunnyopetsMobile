@@ -1,7 +1,6 @@
 package co.com.funnypets.funnypetsmobile.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.com.funnypets.funnypetsmobile.R;
-import co.com.funnypets.funnypetsmobile.activities.PostDetailActivity;
 import co.com.funnypets.funnypetsmobile.adapters.PostAdapter;
 import co.com.funnypets.funnypetsmobile.entities.Post;
 import co.com.funnypets.funnypetsmobile.entities.Usuario;
@@ -52,13 +50,15 @@ public class PostFragment extends Fragment {
 
     private PostAdapter adapter;
     private RecyclerView recyclerView;
-    List<Post>  posts=new ArrayList<>();  private FirebaseAuth mAuth;
+    List<Post> posts = new ArrayList<>();
+    private FirebaseAuth mAuth;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mFirebaseAuth;//mAuth
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
-    private  String userID;
-    public static int i=0;
+    private static String userID;
+    public static Usuario usuario;
+    public static int i = 0;
 
 
     public PostFragment() {
@@ -96,12 +96,29 @@ public class PostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //traer la base de datos
-        mFirebaseAuth=FirebaseAuth.getInstance();
-        mFirebaseDatabase=FirebaseDatabase.getInstance();
-        myRef=mFirebaseDatabase.getReference().child("posts");
-        FirebaseUser user=mFirebaseAuth.getCurrentUser();
-        userID=user.getUid();
-        posts=new ArrayList<>();
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference().child("posts");
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        userID = user.getUid();
+        DatabaseReference userRef = mFirebaseDatabase.getReference().child("Usuarios");
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("root", dataSnapshot.child(userID) + "");
+                usuario=new Usuario();
+                usuario.setUrlfoto(dataSnapshot.child(userID).getValue(Usuario.class).getUrlfoto());
+                usuario.setUsuario(dataSnapshot.child(userID).getValue(Usuario.class).getUsuario());
+                usuario.setCorreo(dataSnapshot.child(userID).getValue(Usuario.class).getCorreo());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        Log.d("root", userID);
+        posts = new ArrayList<>();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -114,9 +131,9 @@ public class PostFragment extends Fragment {
             }
         });
         // Inflate the layout for this fragment
-        Log.d("home","inflate");
-        View view=inflater.inflate(R.layout.fragment_post, container, false);
-        recyclerView=view.findViewById(R.id.recycler_view_post);
+        Log.d("home", "inflate");
+        View view = inflater.inflate(R.layout.fragment_post, container, false);
+        recyclerView = view.findViewById(R.id.recycler_view_post);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
        /* List<Post>  posts=new ArrayList<>();
         Usuario usuario=new Usuario();
@@ -150,20 +167,20 @@ public class PostFragment extends Fragment {
     }
 
     private void showData(DataSnapshot ds) {
-        int i=0;
-        for (DataSnapshot dataSnapshot:ds.getChildren()) {
-               Post post=new Post();
-               post.setDescripcion(ds.child((i)+"").getValue(Post.class).getDescripcion());
-               post.setUrlphotopost(ds.child((i)+"").getValue(Post.class).getUrlphotopost());
-               post.setUsuario(ds.child((i)+"").getValue(Post.class).getUsuario());
-               post.setNumOfLikes(ds.child((i)+"").getValue(Post.class).getNumOfLikes());
-               posts.add(post);
-               i++;
-               adapter=new PostAdapter(getContext(),posts);
-               recyclerView.setAdapter(adapter);
+        int i = 0;
+        for (DataSnapshot dataSnapshot : ds.getChildren()) {
+            Post post = new Post();
+            post.setDescripcion(ds.child((i) + "").getValue(Post.class).getDescripcion());
+            post.setUrlphotopost(ds.child((i) + "").getValue(Post.class).getUrlphotopost());
+            post.setUsuario(ds.child((i) + "").getValue(Post.class).getUsuario());
+            post.setNumOfLikes(ds.child((i) + "").getValue(Post.class).getNumOfLikes());
+            posts.add(post);
+            i++;
+            adapter = new PostAdapter(getContext(), posts);
+            recyclerView.setAdapter(adapter);
         }
 
-        Log.d("post","show data size: "+posts.size());
+        Log.d("post", "show data size: " + posts.size());
 
     }
 
@@ -181,7 +198,7 @@ public class PostFragment extends Fragment {
             mListener = (OnFragmentInteractionListener) context;
         } else {
 //            throw new RuntimeException(context.toString()
-  //                  + " must implement OnFragmentInteractionListener");
+            //                  + " must implement OnFragmentInteractionListener");
         }
     }
 
