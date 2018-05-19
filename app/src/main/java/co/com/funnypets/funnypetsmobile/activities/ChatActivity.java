@@ -95,15 +95,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        fotoPerfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                i.setType("image/jpeg");
-                i.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
-                startActivityForResult(Intent.createChooser(i,"Selecciona una foto"),PHOTO_PERFIL);
-            }
-        });
+
 
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -172,7 +164,7 @@ public class ChatActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Uri u = taskSnapshot.getDownloadUrl();
-                    fotoPerfilCadena = u.toString();
+                   // fotoPerfilCadena = u.toString();
                     MensajeEnviar m = new MensajeEnviar( NOMBRE_USUARIO+ " ha actualizado su foto de perfil",u.toString(),NOMBRE_USUARIO,fotoPerfilCadena,"2",ServerValue.TIMESTAMP);
                     databaseReference.push().setValue(m);
                     Glide.with(ChatActivity.this).load(u.toString()).into(fotoPerfil);
@@ -196,8 +188,10 @@ protected void onResume() {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Usuario usuario = dataSnapshot.getValue(Usuario.class);
                 NOMBRE_USUARIO = usuario.getUsuario();
+                fotoPerfilCadena= usuario.getUrlfoto();
                 nombre.setText(NOMBRE_USUARIO);
                 btnEnviar.setEnabled(true);
+                Glide.with(ChatActivity.this).load(usuario.getUrlfoto()).fitCenter().centerCrop().into(fotoPerfil);
             }
 
             @Override

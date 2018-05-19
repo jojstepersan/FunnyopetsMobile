@@ -108,12 +108,17 @@ public class subirFotoFragment extends Fragment {
 
             }
         });
-        final Spinner spinner =  view.findViewById(R.id.categorias_spinner);
+        final Spinner spinner = (Spinner) view.findViewById(R.id.categorias_spinner);
+        final Spinner spinnerG = (Spinner) view.findViewById(R.id.categorias_spinner2);
         final EditText descripcion = view.findViewById(R.id.editText);
-        final Switch adopcion=view.findViewById(R.id.esta_adoptar);
-        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.planets_array, android.R.layout.simple_spinner_item);
+        final EditText name = view.findViewById(R.id.name_Edit);
+        final EditText edad = view.findViewById(R.id.edad_Edit);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.planets_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(getContext(), R.array.seso, android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerG.setAdapter(adapter2);
         Button btnSubirFoto = view.findViewById(R.id.btn_subir_foto);
         btnSubirFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,16 +137,17 @@ public class subirFotoFragment extends Fragment {
                             }
                         });
                         post.setDescripcion(descripcion.getText().toString());
+                        post.setName(name.getText().toString());
+                        post.setEdad(edad.getText().toString());
                         post.setNumOfLikes(0);
                         post.setUsuario(PostFragment.usuario);
                         post.setCategoria(spinner.getSelectedItem().toString());
+                        post.setGenero(spinnerG.getSelectedItem().toString());
+                        Log.d("url", spinner.getSelectedItem().toString());
                         post.setUrlphotopost(taskSnapshot.getDownloadUrl().toString());
                         Toast.makeText(getContext(), "Se subio la foto exitosamente ", Toast.LENGTH_SHORT).show();
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("posts/" + PostFragment.i);
                         ref.setValue(post);
-                        DatabaseReference ref2=FirebaseDatabase.getInstance().getReference("Usuarios").child(PostFragment.userID).child("posts/" + PostFragment.i++);
-                        post.setUsuario(null);
-                        ref2.setValue(post);
                     }
                 });
                 //post.setUsuario(FirebaseAuth.getInstance().getCurrentUser());
