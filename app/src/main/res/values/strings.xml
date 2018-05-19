@@ -45,6 +45,7 @@
     <string name="title_activity_edit_profile">EditProfile</string>
     <string name="title_activity_post">PostActivity</string>
     <string name="title_activity_post_detail">PostDetailActivity</string>
+
     <string-array name="planets_array">
         <item>Seleccione....</item>
         <item>Perro</item>
@@ -56,5 +57,11 @@
         <item>Araña</item>
         <item>Cocodrilo</item>
     </string-array>
->>>>>>> master
+
+    <string-array name="seso">
+        <item>Seleccione....</item>
+        <item>Macho</item>
+        <item>Hembra</item>
+    </string-array>
+
 </resources>

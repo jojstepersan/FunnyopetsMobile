@@ -94,6 +94,69 @@
                 app:layout_constraintTop_toBottomOf="@+id/categorias_spinner" />
 
             <EditText
+                android:id="@+id/name_Edit"
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="2"
+                android:hint="Nombre"
+                android:maxLength="150"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="@+id/esta_adoptar"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/esta_adoptar" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="212dp"
+                android:gravity="center"
+                android:text="Genero"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="@+id/image_subir_foto"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/image_subir_foto"
+                app:layout_constraintTop_toBottomOf="@+id/image_subir_foto" />
+
+            <Spinner
+                android:id="@+id/categorias_spinner2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                app:layout_constraintEnd_toEndOf="@+id/textView3"
+                app:layout_constraintTop_toBottomOf="@+id/textView3"
+                android:layout_marginTop="10dp"
+ />
+
+
+            <EditText
+                android:id="@+id/edad_Edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="52dp"
+                android:layout_weight="2"
+                android:hint="Edad Aproximada"
+                android:maxLength="150"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="@+id/esta_adoptar"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/esta_adoptar" />
+
+            <EditText
                 android:id="@+id/editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -101,25 +164,27 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="180dp"
                 android:layout_weight="2"
                 android:hint="Descripción"
                 android:maxLength="150"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="@+id/esta_adoptar"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/esta_adoptar" />
+
 
             <Button
                 android:id="@+id/btn_subir_foto"
                 style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
+                android:layout_width="360dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="20dp"
                 android:layout_weight="2"
                 android:background="@drawable/buttonstyle"
                 android:text="@string/publicar"
