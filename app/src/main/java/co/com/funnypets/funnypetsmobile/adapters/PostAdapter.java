@@ -29,6 +29,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> im
 
     public List<Post> postList;
     public Context mContext;
+
     private View.OnClickListener listener;
     static boolean bo=false;
 
@@ -83,6 +84,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> im
         private ImageView post;
         private CircleImageView profile;
         private ImageView adoptar,like,comentar;
+        public int numeroLikes=0;
 
 
         public ViewHolder(final View itemView) {
@@ -101,6 +103,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> im
 
                 }
             });
+
             like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -109,6 +112,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> im
                                     "Has dado like", Toast.LENGTH_SHORT);
 
                     toast1.show();
+                    numeroLikes++;
+                    likes.setText(numeroLikes + " Likes");
                     if(bo==false) {
                         like.setImageResource(R.drawable.icon_heart_r);
                     }if(bo==true){
