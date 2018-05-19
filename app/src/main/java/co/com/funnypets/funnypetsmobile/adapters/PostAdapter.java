@@ -51,7 +51,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> im
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.usuario.setText(postList.get(position).getUsuario().getUsuario());
         holder.descripcion.setText(postList.get(position).getDescripcion());
-        Glide.with(mContext).load(postList.get(position).getUsuario().getUrlfoto()).fitCenter().centerCrop().into(holder.profile);
+        if(postList.get(position).getUsuario().getUrlfoto()==null){
+            holder.profile.setImageResource(R.drawable.sinperfil);
+        }else{
+            Glide.with(mContext).load(postList.get(position).getUsuario().getUrlfoto()).fitCenter().centerCrop().into(holder.profile);
+        }
         Glide.with(mContext).load(postList.get(position).getUrlphotopost()).fitCenter().centerCrop().into(holder.post);
         holder.likes.setText(String.valueOf(postList.get(position).getNumOfLikes())+ " likes");
         bo=false;

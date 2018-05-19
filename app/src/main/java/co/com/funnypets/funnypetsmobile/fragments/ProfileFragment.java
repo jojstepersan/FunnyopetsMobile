@@ -197,7 +197,12 @@ public class ProfileFragment extends Fragment {
                 //ctnp.setText(String.valueOf(ux.getCntFotos()));//(String.valueOf(usuariox.getCntFotos()));
                 ctnf.setText(String.valueOf(ux.getCntFollowing()));//(String.valueOf(usuariox.getCntFollowing()));
                 ctnfo.setText(String.valueOf(ux.getCntFollowers()));
-                Glide.with(getContext()).load(ux.getUrlfoto()).fitCenter().centerCrop().into(foto);
+                if(ux.getUrlfoto()==null){
+                    foto.setImageResource(R.drawable.sinperfil);
+                }else{
+                    Glide.with(getContext()).load(ux.getUrlfoto()).fitCenter().centerCrop().into(foto);
+                }
+
             }
 
             @Override
@@ -332,8 +337,9 @@ public class ProfileFragment extends Fragment {
 
         Log.d("post", "show data size: " + posts.size());
         ctnp.setText(String.valueOf(posts.size()));
-        Glide.with(getContext()).load(posts.get(0).getUrlphotopost()).fitCenter().centerCrop().into(portada);
-
+        if(posts.size()>0) {
+            Glide.with(getContext()).load(posts.get(0).getUrlphotopost()).fitCenter().centerCrop().into(portada);
+        }
 
     }
 
