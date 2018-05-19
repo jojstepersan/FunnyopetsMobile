@@ -134,7 +134,7 @@ public class subirFotoFragment extends Fragment {
                         adopcion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                             @Override
                             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                post.setAdopcion(isChecked);
+                                post.setAdopcion(buttonView.isChecked());
                             }
                         });
                         post.setDescripcion(descripcion.getText().toString());
@@ -144,7 +144,6 @@ public class subirFotoFragment extends Fragment {
                         post.setUsuario(PostFragment.usuario);
                         post.setCategoria(spinner.getSelectedItem().toString());
                         post.setGenero(spinnerG.getSelectedItem().toString());
-                        Log.d("url", spinner.getSelectedItem().toString());
                         post.setUrlphotopost(taskSnapshot.getDownloadUrl().toString());
                         Toast.makeText(getContext(), "Se subio la foto exitosamente ", Toast.LENGTH_SHORT).show();
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("posts/" + PostFragment.i);

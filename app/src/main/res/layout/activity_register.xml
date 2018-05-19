@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".activities.activities.LoginActivity">
+    tools:context=".activities.RegisterActivity">
 
     <!-- Login progress -->
     <ProgressBar
@@ -21,7 +21,9 @@
         android:visibility="gone" />
 
 
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
@@ -56,6 +58,12 @@
 
             </LinearLayout>
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/reg_foto"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:src="@drawable/profile2"/>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -130,5 +138,5 @@
                 android:textColor="@color/white"
                 android:textStyle="bold" />
         </LinearLayout>
-
+</ScrollView>
 </LinearLayout>
