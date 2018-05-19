@@ -96,24 +96,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        View v = autoCompleteTextView;
-        autoCompleteTextView = v.findViewById(R.id.textView2);
-        autoCompleteTextView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filter(usuarios,s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
     }
 
     @Override
@@ -142,6 +124,24 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         });
         adapter=new SearchAdapter(usuarios,getContext());
         recyclerView.setAdapter(adapter);
+
+        autoCompleteTextView = view.findViewById(R.id.textView2);
+        autoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filter(usuarios,s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         return  view;
     }
