@@ -12,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -57,6 +59,7 @@ public class subirFotoFragment extends Fragment {
     private static final int GALERY_INTENT = 1;
     private ImageView image;
     private Uri u;
+    private Post post;
 
     public subirFotoFragment() {
         // Required empty public constructor
@@ -110,6 +113,7 @@ public class subirFotoFragment extends Fragment {
         final EditText descripcion = view.findViewById(R.id.editText);
         final EditText name = view.findViewById(R.id.name_Edit);
         final EditText edad = view.findViewById(R.id.edad_Edit);
+        final Switch adopcion=view.findViewById(R.id.esta_adoptar);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.planets_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -126,7 +130,13 @@ public class subirFotoFragment extends Fragment {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                        Post post = new Post();
+                        post = new Post();
+                        adopcion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                post.setAdopcion(isChecked);
+                            }
+                        });
                         post.setDescripcion(descripcion.getText().toString());
                         post.setName(name.getText().toString());
                         post.setEdad(edad.getText().toString());
@@ -137,9 +147,8 @@ public class subirFotoFragment extends Fragment {
                         Log.d("url", spinner.getSelectedItem().toString());
                         post.setUrlphotopost(taskSnapshot.getDownloadUrl().toString());
                         Toast.makeText(getContext(), "Se subio la foto exitosamente ", Toast.LENGTH_SHORT).show();
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("posts/" + PostFragment.i++);
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("posts/" + PostFragment.i);
                         ref.setValue(post);
-
                     }
                 });
                 //post.setUsuario(FirebaseAuth.getInstance().getCurrentUser());

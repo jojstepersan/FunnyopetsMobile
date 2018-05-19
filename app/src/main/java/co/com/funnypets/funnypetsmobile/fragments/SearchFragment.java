@@ -7,18 +7,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
+import android.widget.AutoCompleteTextView;
+import android.widget.SearchView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import co.com.funnypets.funnypetsmobile.R;
 import co.com.funnypets.funnypetsmobile.adapters.SearchAdapter;
@@ -42,7 +38,7 @@ import co.com.funnypets.funnypetsmobile.entities.Usuario;
  * Use the {@link SearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -54,11 +50,12 @@ public class SearchFragment extends Fragment {
     private SearchAdapter adapter;
     private RecyclerView recyclerView;
 
-    ArrayList<Usuario> usuarios=new ArrayList<>();
+    ArrayList<Usuario> usuarios = new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference mDatabase = database.getReference("Usuarios");
+    private AutoCompleteTextView autoCompleteTextView = null;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -89,18 +86,35 @@ public class SearchFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_search, container, false);
-        recyclerView=view.findViewById(R.id.recycler_view_search);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        recyclerView = view.findViewById(R.id.recycler_view_search);
+     //   autoCompleteTextView = view.findViewById(R.id.textView2);
+    /*    autoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filter(usuarios, s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });*/
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new SearchFragment.GridSpacingItemDecoration(1, dpToPx(2), true));
-//        mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -116,10 +130,10 @@ public class SearchFragment extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-        adapter=new SearchAdapter(usuarios,getContext());
+        adapter = new SearchAdapter(usuarios, getContext());
         recyclerView.setAdapter(adapter);
 
-        return  view;
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -144,6 +158,36 @@ public class SearchFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        try {
+            ArrayList<Usuario> listaFiltrada = filter(usuarios, newText);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    public ArrayList<Usuario> filter(ArrayList<Usuario> lista, String query) {
+        ArrayList<Usuario> listaFilter = new ArrayList<Usuario>();
+        try {
+            query = query.toLowerCase();
+            for (Usuario usuario : lista) {
+                if (usuario.getUsuario().toLowerCase().contains(query)) {
+                    listaFilter.add(usuario);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return listaFilter;
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -158,6 +202,7 @@ public class SearchFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
         private int spanCount;
@@ -223,10 +268,10 @@ public class SearchFragment extends Fragment {
         // [END post_value_event_listener]
 
         // Keep copy of post listener so we can remove it when app stops
-       // mPostListener = postListener;
+        // mPostListener = postListener;
 
         // Listen for comments
-      //  mAdapter = new CommentAdapter(this, mCommentsReference);
-      //  mCommentsRecycler.setAdapter(mAdapter);
+        //  mAdapter = new CommentAdapter(this, mCommentsReference);
+        //  mCommentsRecycler.setAdapter(mAdapter);
     }
 }
