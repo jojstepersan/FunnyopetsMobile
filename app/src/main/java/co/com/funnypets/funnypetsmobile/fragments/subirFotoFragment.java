@@ -28,6 +28,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import co.com.funnypets.funnypetsmobile.R;
+import co.com.funnypets.funnypetsmobile.activities.MainActivity;
 import co.com.funnypets.funnypetsmobile.entities.Post;
 
 /**
@@ -148,6 +149,8 @@ public class subirFotoFragment extends Fragment {
                         Toast.makeText(getContext(), "Se subio la foto exitosamente ", Toast.LENGTH_SHORT).show();
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("posts/" + PostFragment.i);
                         ref.setValue(post);
+                        Intent intent2= new Intent(getActivity(), MainActivity.class);
+                        getActivity().startActivity(intent2);
                     }
                 });
                 //post.setUsuario(FirebaseAuth.getInstance().getCurrentUser());

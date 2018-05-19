@@ -137,7 +137,11 @@ public class PostFragment extends Fragment {
         Log.d("home", "inflate");
         View view = inflater.inflate(R.layout.fragment_post, container, false);
         recyclerView = view.findViewById(R.id.recycler_view_post);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutLinear = new LinearLayoutManager(getContext());
+        layoutLinear.setReverseLayout(true);
+        layoutLinear.setStackFromEnd(true);
+        recyclerView.setLayoutManager(layoutLinear);
+
        /* List<Post>  posts=new ArrayList<>();
         Usuario usuario=new Usuario();
         usuario.setUsuario("Stiven Perdomo");
