@@ -2,6 +2,7 @@ package co.com.funnypets.funnypetsmobile.activities;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -10,9 +11,13 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -31,6 +36,7 @@ import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -50,7 +56,7 @@ public class PieActivity extends Activity implements SeekBar.OnSeekBarChangeList
     private String[] mParties = new String[] {
             "GATOS", "PERROS", "AVES", "PECES", "HAMSTERS"
     };
-
+private Button back1;
 
 
     @Override
@@ -119,7 +125,9 @@ public class PieActivity extends Activity implements SeekBar.OnSeekBarChangeList
         // entry label styling
         mChart.setEntryLabelColor(Color.WHITE);
         mChart.setEntryLabelTextSize(12f);
+
     }
+
 
 
     @Override

@@ -35,6 +35,8 @@ import java.util.List;
 import co.com.funnypets.funnypetsmobile.R;
 import co.com.funnypets.funnypetsmobile.activities.EditProfile;
 import co.com.funnypets.funnypetsmobile.activities.LoginActivity;
+import co.com.funnypets.funnypetsmobile.activities.MainActivity;
+import co.com.funnypets.funnypetsmobile.activities.PieActivity;
 import co.com.funnypets.funnypetsmobile.adapters.PhotosAdapter;
 import co.com.funnypets.funnypetsmobile.adapters.PostAdapter;
 import co.com.funnypets.funnypetsmobile.entities.Post;
@@ -72,6 +74,7 @@ public class ProfileFragment extends Fragment {
     private ImageView portada;
     private Button editProfile;
     private Button signout;
+    private Button dashboard;
     int i=0;
 
     private OnFragmentInteractionListener mListener;
@@ -126,6 +129,18 @@ public class ProfileFragment extends Fragment {
         ctnf.setText(20+"");//(String.valueOf(usuariox.getCntFollowing()));
         ctnfo.setText(15+"");//(String.valueOf(usuariox.getCntFollowers()));
         signout=view.findViewById(R.id.profile_signout);
+        dashboard=view.findViewById(R.id.settings_button);
+
+        dashboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),PieActivity.class));
+                /*Intent intent2;
+                intent2 = new Intent(getContext(), MainActivity.class);
+                startActivity(intent2);*/
+            }
+        });
+
         signout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
