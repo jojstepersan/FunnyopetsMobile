@@ -1,6 +1,7 @@
 package co.com.funnypets.funnypetsmobile.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -18,12 +20,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.com.funnypets.funnypetsmobile.R;
+import co.com.funnypets.funnypetsmobile.activities.ChatActivity;
+import co.com.funnypets.funnypetsmobile.activities.MainActivity;
+import co.com.funnypets.funnypetsmobile.activities.otherPerfilActivity;
 import co.com.funnypets.funnypetsmobile.entities.Usuario;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder>{
     ArrayList<String> listDatos;
     List<Usuario> usuarios;
     public Context mContext;
+
+
     public AutoCompleteTextView autoCompleteTextView = null;
     public SearchAdapter(ArrayList<Usuario> usuarios, Context context) {
         mContext = context;
@@ -39,9 +46,32 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+        final Usuario album = usuarios.get(position);
         holder.username.setText(usuarios.get(position).getUsuario());
-        Glide.with(mContext).load(usuarios.get(position).getUrlfoto()).fitCenter().centerCrop().into(holder.imagenPerfil);
+        if(usuarios.get(position).getUrlfoto()==null){
+            holder.imagenPerfil.setImageResource(R.drawable.sinperfil);
+        }else{
+            Glide.with(mContext).load(usuarios.get(position).getUrlfoto()).fitCenter().centerCrop().into(holder.imagenPerfil);
+        }
+
+
+        holder.elementView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent2;
+                intent2 = new Intent(holder.elementView.getContext(), otherPerfilActivity.class);
+                intent2.putExtra("name",album.getUsuario());
+                intent2.putExtra("correo",album.getCorreo());
+                intent2.putExtra("se",album.getCntFollowers());
+                intent2.putExtra("si",album.getCntFollowing());
+                intent2.putExtra("foto",album.getUrlfoto());
+                holder.elementView.getContext().startActivity(intent2);
+
+
+
+            }
+        });
     }
 
     @Override
@@ -59,12 +89,15 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView username;
         ImageView imagenPerfil;
+        private View elementView;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
             username = itemView.findViewById(R.id.search_cardView_name);
             imagenPerfil = itemView.findViewById(R.id.search_foto);
+            elementView = itemView;
+
         }
 
     }

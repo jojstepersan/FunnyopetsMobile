@@ -39,7 +39,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.MyViewHold
             count = (TextView) view.findViewById(R.id.count);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
             adopt = (ImageView) view.findViewById(R.id.adopt_p);
-            elementView = view;
+            elementView = view;  elementView = view;
         }
     }
 

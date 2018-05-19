@@ -191,7 +191,12 @@ protected void onResume() {
                 fotoPerfilCadena= usuario.getUrlfoto();
                 nombre.setText(NOMBRE_USUARIO);
                 btnEnviar.setEnabled(true);
-                Glide.with(ChatActivity.this).load(usuario.getUrlfoto()).fitCenter().centerCrop().into(fotoPerfil);
+                if((usuario.getUrlfoto()==null)){
+                    fotoPerfil.setImageResource(R.drawable.sinperfil);
+                }else{
+                    Glide.with(ChatActivity.this).load(usuario.getUrlfoto()).fitCenter().centerCrop().into(fotoPerfil);
+                }
+
             }
 
             @Override

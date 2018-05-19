@@ -44,6 +44,11 @@
             android:name=".activities.PostDetailActivity"
             android:label="@string/title_activity_post_detail"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity
+            android:name=".activities.otherPerfilActivity"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
