@@ -86,16 +86,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
-        recyclerView = view.findViewById(R.id.recycler_view_search);
-     //   autoCompleteTextView = view.findViewById(R.id.textView2);
+        //   autoCompleteTextView = view.findViewById(R.id.textView2);
     /*    autoCompleteTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -112,6 +103,16 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
             }
         });*/
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        recyclerView = view.findViewById(R.id.recycler_view_search);
+
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new SearchFragment.GridSpacingItemDecoration(1, dpToPx(2), true));
@@ -260,18 +261,8 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                // [END_EXCLUDE]
+
             }
         };
-        //mPostReference.addValueEventListener(postListener);
-        // [END post_value_event_listener]
-
-        // Keep copy of post listener so we can remove it when app stops
-        // mPostListener = postListener;
-
-        // Listen for comments
-        //  mAdapter = new CommentAdapter(this, mCommentsReference);
-        //  mCommentsRecycler.setAdapter(mAdapter);
     }
 }

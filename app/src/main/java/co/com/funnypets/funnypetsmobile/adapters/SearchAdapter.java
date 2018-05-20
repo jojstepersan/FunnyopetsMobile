@@ -3,27 +3,23 @@ package co.com.funnypets.funnypetsmobile.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import co.com.funnypets.funnypetsmobile.R;
-import co.com.funnypets.funnypetsmobile.activities.ChatActivity;
-import co.com.funnypets.funnypetsmobile.activities.MainActivity;
 import co.com.funnypets.funnypetsmobile.activities.otherPerfilActivity;
 import co.com.funnypets.funnypetsmobile.entities.Usuario;
+import co.com.funnypets.funnypetsmobile.fragments.OtherProfileFragment;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder>{
     ArrayList<String> listDatos;
@@ -59,15 +55,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         holder.elementView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent2;
+                FragmentManager manager =  ((FragmentActivity)mContext).getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                OtherProfileFragment.usuario=album;
+                transaction.replace(R.id.main_fragment, new OtherProfileFragment()).commit();
+                /*Intent intent2;
                 intent2 = new Intent(holder.elementView.getContext(), otherPerfilActivity.class);
                 intent2.putExtra("name",album.getUsuario());
                 intent2.putExtra("correo",album.getCorreo());
                 intent2.putExtra("se",album.getCntFollowers());
                 intent2.putExtra("si",album.getCntFollowing());
                 intent2.putExtra("foto",album.getUrlfoto());
-                holder.elementView.getContext().startActivity(intent2);
-
+                holder.elementView.getContext().startActivity(intent2);*/
 
 
             }
