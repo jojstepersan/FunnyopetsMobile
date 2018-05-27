@@ -40,7 +40,6 @@ public class PostDetailActivity extends AppCompatActivity {
     public static int i = 0;
     public static int pos = 0;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

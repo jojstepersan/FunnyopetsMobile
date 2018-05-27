@@ -47,10 +47,7 @@ public class PostFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     private OnFragmentInteractionListener mListener;
-
-
     private PostAdapter adapter;
     private RecyclerView recyclerView;
     List<Post> posts = new ArrayList<>();
@@ -108,7 +105,6 @@ public class PostFragment extends Fragment {
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("root", dataSnapshot.child(userID) + "");
                 usuario=new Usuario();
                 usuario.setUrlfoto(dataSnapshot.child(userID).getValue(Usuario.class).getUrlfoto());
                 usuario.setUsuario(dataSnapshot.child(userID).getValue(Usuario.class).getUsuario());
@@ -120,7 +116,6 @@ public class PostFragment extends Fragment {
 
             }
         });
-        Log.d("root", userID);
         posts = new ArrayList<>();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -134,41 +129,12 @@ public class PostFragment extends Fragment {
             }
         });
         // Inflate the layout for this fragment
-        Log.d("home", "inflate");
         View view = inflater.inflate(R.layout.fragment_post, container, false);
         recyclerView = view.findViewById(R.id.recycler_view_post);
         LinearLayoutManager layoutLinear = new LinearLayoutManager(getContext());
         layoutLinear.setReverseLayout(true);
         layoutLinear.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutLinear);
-
-       /* List<Post>  posts=new ArrayList<>();
-        Usuario usuario=new Usuario();
-        usuario.setUsuario("Stiven Perdomo");
-        Post post;
-        post=new Post("el perrito lendo",usuario,"Lo mas lendo del mundo el perrito lendo",20,"https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fgolden.jpg?alt=media&token=f1a6bd9d-7d0e-4f25-a771-9a13ade9c757");
-        posts.add(post);
-        post=new Post("el gato lendo",usuario,"Lo mas lendo del mundo el gato lendo",20,"https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fgolden.jpg?alt=media&token=f1a6bd9d-7d0e-4f25-a771-9a13ade9c757");
-        posts.add(post);
-        usuario=new Usuario();
-        usuario.setUsuario("Kevin alberto");
-        post=new Post("el perico lendo",usuario,"Lo mas lendo del mundo el perico lendo",20,"https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fgolden.jpg?alt=media&token=f1a6bd9d-7d0e-4f25-a771-9a13ade9c757");
-        posts.add(post);
-        post=new Post("la perra esa",usuario,"Lo mas lendo del mundo la perra esa",20,"https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fimage%3A5239?alt=media&token=65b04ad4-401c-4a0b-8274-d4ce7d2d5156");
-        posts.add(post);
-        usuario=new Usuario();
-        usuario.setUsuario("MARIO BROSS");
-        post=new Post("el tiger",usuario,"Lo mas lendo del mundo el tiger",20,"https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2Fimage%3A5239?alt=media&token=65b04ad4-401c-4a0b-8274-d4ce7d2d5156");
-        posts.add(post);
-        adapter=new PostAdapter(getContext(),posts);
-        adapter.setOnclickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent next = new Intent(getContext(), PostDetailActivity.class);
-                startActivity(next);
-            }
-        });*/
-
         recyclerView.setAdapter(adapter);
         return view;
     }
