@@ -60,5 +60,7 @@
         <item>Macho</item>
         <item>Hembra</item>
     </string-array>
+    <string name="title_detailsactivity_list">Items</string>
+    <string name="title_detailsactivity_detail">detailsActivity Detail</string>
 
 </resources>
