@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -124,12 +126,23 @@ public class PostDetailActivity extends AppCompatActivity {
                 i++;
             }
         }
+        Animation fromLeft = AnimationUtils.loadAnimation(this, R.anim.fromleft);
+        Animation fromRight = AnimationUtils.loadAnimation(this, R.anim.fromright);
+        Animation fromDown = AnimationUtils.loadAnimation(this, R.anim.frombottom);
+        Animation fromUp = AnimationUtils.loadAnimation(this, R.anim.fromtop);
+
         TextView name = findViewById(R.id.Post_name2);
         TextView raza = findViewById(R.id.Post_raza);
         TextView gen = findViewById(R.id.Post_gen);
         TextView edad = findViewById(R.id.Post_edad);
         TextView des = findViewById(R.id.Post_desc);
         ImageView foto = findViewById(R.id.backdrop);
+        name.setAnimation(fromLeft);
+        raza.setAnimation(fromRight);
+        gen.setAnimation(fromLeft);
+        edad.setAnimation(fromRight);
+        des.setAnimation(fromLeft);
+        foto.setAnimation(fromDown);
 
         name.setText(posts.get(pos).getName());
         raza.setText(posts.get(pos).getCategoria());

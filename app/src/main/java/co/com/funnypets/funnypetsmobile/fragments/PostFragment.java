@@ -4,13 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -59,6 +63,7 @@ public class PostFragment extends Fragment {
     public static String userID;
     public static Usuario usuario;
     public static int i = 0;
+    private BottomNavigationView mDrawer;
 
 
     public PostFragment() {
@@ -96,6 +101,9 @@ public class PostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //traer la base de datos
+        //mDrawer=getActivity().findViewById(R.id.bottomNavViewBar);
+       // mDrawer.(Gravity.LEFT);
+        //mDrawer.(Gravity.LEFT);
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference().child("posts");
@@ -131,6 +139,7 @@ public class PostFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_post, container, false);
         recyclerView = view.findViewById(R.id.recycler_view_post);
+        recyclerView.setAnimation(AnimationUtils.loadAnimation(getContext(),R.anim.fromleft));
         LinearLayoutManager layoutLinear = new LinearLayoutManager(getContext());
         layoutLinear.setReverseLayout(true);
         layoutLinear.setStackFromEnd(true);

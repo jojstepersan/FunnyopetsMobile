@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,14 +55,24 @@ public class EditProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Animation fromLeft = AnimationUtils.loadAnimation(this, R.anim.fromleft);
+        Animation fromRight = AnimationUtils.loadAnimation(this, R.anim.fromright);
+        Animation fromDown = AnimationUtils.loadAnimation(this, R.anim.frombottom);
+        Animation fromUp = AnimationUtils.loadAnimation(this, R.anim.fromtop);
         setContentView(R.layout.activity_edit_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       // toolbar.setAnimation(fromUp);
         setSupportActionBar(toolbar);
         name=findViewById(R.id.name_edit);
+        name.setAnimation(fromLeft);
         email=findViewById(R.id.email_edit);
+        email.setAnimation(fromRight);
         pass=findViewById(R.id.password_edit);
+        pass.setAnimation(fromLeft);
         passl=findViewById(R.id.last_password_edit);
+        passl.setAnimation(fromRight);
         boton=findViewById(R.id.save_changes_btn);
+        boton.setAnimation(fromDown);
         dialog= new ProgressDialog(this);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();

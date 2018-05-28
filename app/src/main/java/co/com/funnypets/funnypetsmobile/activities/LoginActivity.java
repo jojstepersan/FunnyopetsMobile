@@ -3,28 +3,34 @@ package co.com.funnypets.funnypetsmobile.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
+import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.transition.Explode;
+import android.transition.Slide;
+import android.transition.Transition;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -58,7 +64,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
-    private List<AuthUI.IdpConfig> provider= Arrays.asList(
+
+
+    private List<AuthUI.IdpConfig> provider = Arrays.asList(
             new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
             new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build(),
             new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
@@ -80,20 +88,29 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Animation fromLeft = AnimationUtils.loadAnimation(this, R.anim.fromleft);
+        Animation fromRight = AnimationUtils.loadAnimation(this, R.anim.fromright);
+        Animation fromDown = AnimationUtils.loadAnimation(this, R.anim.frombottom);
+        Animation fromUp = AnimationUtils.loadAnimation(this, R.anim.fromtop);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView.setAnimation(fromUp);
         populateAutoComplete();
         mPasswordView = (EditText) findViewById(R.id.password);
-        mContext=LoginActivity.this;
-        mAuth=FirebaseAuth.getInstance();
-        mAuthListener=new FirebaseAuth.AuthStateListener() {
+        mPasswordView.setAnimation(fromLeft);
+        mContext = LoginActivity.this;
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if(firebaseAuth.getCurrentUser()!=null){
-                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
-
-                }else{
-                    Toast.makeText(LoginActivity.this,"usuario o contraseña erroneos",Toast.LENGTH_LONG).show();
+                if (firebaseAuth.getCurrentUser() != null) {
+                    Transition t = new Explode();
+                    t.setDuration(1000);
+                    t.setInterpolator(new DecelerateInterpolator());
+                    getWindow().setExitTransition(t);
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class), ActivityOptionsCompat.makeSceneTransitionAnimation(LoginActivity.this).toBundle());
+                } else {
+                    Toast.makeText(LoginActivity.this, "usuario o contraseña erroneos", Toast.LENGTH_LONG).show();
                 }
             }
         };
@@ -109,38 +126,47 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        mEmailSignInButton.setAnimation(fromLeft);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-              //  attemptLogin();
+                //  attemptLogin();
                 starSingIn();
             }
         });
 
-        Button eRegisterBotton=(Button)findViewById(R.id.btn_register);
+        Button eRegisterBotton = (Button) findViewById(R.id.btn_register);
+        eRegisterBotton.setAnimation(fromRight);
         eRegisterBotton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+                Transition t = new Slide(Gravity.END);
+                t.setDuration(1000);
+                t.setInterpolator(new DecelerateInterpolator());
+                getWindow().setExitTransition(t);
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class), ActivityOptionsCompat.makeSceneTransitionAnimation(LoginActivity.this).toBundle());
+
             }
         });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        findViewById(R.id.redes_sociales).setAnimation(fromDown);
+        findViewById(R.id.logo_fp).setAnimation(fromUp);
     }
 
-    private void starSingIn(){
-        String email=mEmailView.getText().toString();
-        String password=mPasswordView.getText().toString();
-        if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
-            Toast.makeText(LoginActivity.this,"Fields are empty",Toast.LENGTH_LONG).show();
-        }else {
+    private void starSingIn() {
+        String email = mEmailView.getText().toString();
+        String password = mPasswordView.getText().toString();
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+            Toast.makeText(LoginActivity.this, "Fields are empty", Toast.LENGTH_LONG).show();
+        } else {
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
                         Toast.makeText(LoginActivity.this, "sing in problem", Toast.LENGTH_LONG).show();
-                    }else{
+                    } else {
 
 
                     }
@@ -162,6 +188,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
+
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
@@ -213,8 +240,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private void attemptLogin() {
         Log.d(TAG, "setupFirebaseAuth: setting up firebase auth.");
-        mAuth=FirebaseAuth.getInstance();
-        mAuthListener=new FirebaseAuth.AuthStateListener() {
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -228,65 +255,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 // ...
             }
         };
-      /*  if (mAuthTask != null) {
-            return;
-        }
 
-        // Reset errors.
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
-
-        // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
-
-        boolean cancel = false;
-        View focusView = null;
-
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
-        }
-
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
-        }*/
     }
 
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
-    }
 
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
-    }
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow

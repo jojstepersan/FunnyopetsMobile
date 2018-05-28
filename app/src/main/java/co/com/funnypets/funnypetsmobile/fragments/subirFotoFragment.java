@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -97,8 +99,13 @@ public class subirFotoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Animation fromLeft = AnimationUtils.loadAnimation(getContext(), R.anim.fromleft);
+        Animation fromRight = AnimationUtils.loadAnimation(getContext(), R.anim.fromright);
+        Animation fromDown = AnimationUtils.loadAnimation(getContext(), R.anim.frombottom);
+        Animation fromUp = AnimationUtils.loadAnimation(getContext(), R.anim.fromtop);
         View view = inflater.inflate(R.layout.fragment_subir_foto, container, false);
         image = view.findViewById(R.id.image_subir_foto);
+        image.setAnimation(fromUp);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,11 +117,17 @@ public class subirFotoFragment extends Fragment {
             }
         });
         final Spinner spinner = (Spinner) view.findViewById(R.id.categorias_spinner);
+        spinner.setAnimation(fromLeft);
         final Spinner spinnerG = (Spinner) view.findViewById(R.id.categorias_spinner2);
+        spinner.setAnimation(fromRight);
         final EditText descripcion = view.findViewById(R.id.editText);
+        descripcion.setAnimation(fromLeft);
         final EditText name = view.findViewById(R.id.name_Edit);
+        name.setAnimation(fromUp);
         final EditText edad = view.findViewById(R.id.edad_Edit);
+        edad.setAnimation(fromLeft);
         final Switch adopcion=view.findViewById(R.id.esta_adoptar);
+        adopcion.setAnimation(fromRight);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.planets_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -122,6 +135,7 @@ public class subirFotoFragment extends Fragment {
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerG.setAdapter(adapter2);
         Button btnSubirFoto = view.findViewById(R.id.btn_subir_foto);
+        btnSubirFoto.setAnimation(fromDown);
         btnSubirFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

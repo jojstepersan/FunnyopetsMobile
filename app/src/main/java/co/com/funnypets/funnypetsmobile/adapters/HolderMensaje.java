@@ -1,7 +1,9 @@
 package co.com.funnypets.funnypetsmobile.adapters;
 
+import android.animation.Animator;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -68,4 +70,5 @@ public class HolderMensaje extends RecyclerView.ViewHolder {
     public void setFotoMensaje(ImageView fotoMensaje) {
         this.fotoMensaje = fotoMensaje;
     }
+
 }

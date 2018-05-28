@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -47,15 +49,24 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Animation fromLeft = AnimationUtils.loadAnimation(this, R.anim.fromleft);
+        Animation fromRight = AnimationUtils.loadAnimation(this, R.anim.fromright);
+        Animation fromDown = AnimationUtils.loadAnimation(this, R.anim.frombottom);
+        Animation fromUp = AnimationUtils.loadAnimation(this, R.anim.fromtop);
         setContentView(R.layout.activity_register);
         txtNombre = (EditText) findViewById(R.id.username);
+        txtNombre.setAnimation(fromUp);
         txtCorreo = (EditText) findViewById(R.id.email);
+        txtCorreo.setAnimation(fromLeft);
         txtContraseña = (EditText) findViewById(R.id.password);
+        txtContraseña.setAnimation(fromRight);
         usuario = new Usuario();
         btnRegistrar = (Button) findViewById(R.id.btn_register);
+        btnRegistrar.setAnimation(fromDown);
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         foto = findViewById(R.id.reg_foto);
+        foto.setAnimation(fromRight);
         foto.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

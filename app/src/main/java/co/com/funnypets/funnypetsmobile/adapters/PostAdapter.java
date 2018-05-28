@@ -1,5 +1,6 @@
 package co.com.funnypets.funnypetsmobile.adapters;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -7,6 +8,7 @@ import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -145,5 +147,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> im
            // comentar=itemView.findViewById(R.id.main_item_botton_comment);
 
         }
+    }
+    public void animateCircularReveal(View view) {
+        int centerX = 0;
+        int centerY = 0;
+        int startRadius = 0;
+        int endRadius = Math.max(view.getWidth(), view.getHeight());
+        Animator animation = ViewAnimationUtils.createCircularReveal(view, centerX, centerY, startRadius, endRadius);
+        view.setVisibility(View.VISIBLE);
+        animation.start();
+    }
+
+    @Override
+    public void onViewAttachedToWindow(ViewHolder viewHolder) {
+        super.onViewAttachedToWindow(viewHolder);
+        animateCircularReveal(viewHolder.itemView);
     }
 }

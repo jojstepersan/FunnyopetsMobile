@@ -5,17 +5,28 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.transition.Transition;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,6 +46,7 @@ import java.util.List;
 import co.com.funnypets.funnypetsmobile.R;
 import co.com.funnypets.funnypetsmobile.activities.EditProfile;
 import co.com.funnypets.funnypetsmobile.activities.LoginActivity;
+import co.com.funnypets.funnypetsmobile.activities.MainActivity;
 import co.com.funnypets.funnypetsmobile.activities.PieActivity;
 import co.com.funnypets.funnypetsmobile.adapters.PhotosAdapter;
 import co.com.funnypets.funnypetsmobile.entities.Post;
@@ -73,7 +85,7 @@ public class ProfileFragment extends Fragment {
     private Button editProfile;
     private Button signout;
     private Button dashboard;
-    int i=0;
+    int i = 0;
 
 
     private OnFragmentInteractionListener mListener;
@@ -113,35 +125,49 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Animation fromLeft = AnimationUtils.loadAnimation(getContext(), R.anim.fromleft);
+        Animation fromRight = AnimationUtils.loadAnimation(getContext(), R.anim.fromright);
+        Animation fromDown = AnimationUtils.loadAnimation(getContext(), R.anim.frombottom);
+        Animation fromUp = AnimationUtils.loadAnimation(getContext(), R.anim.fromtop);
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        toolbar.setAnimation(fromUp);
         ctnp = view.findViewById(R.id.cntpst);
+        ctnp.setAnimation(fromUp);
         ctnf = view.findViewById(R.id.cntfollowing);
+        ctnf.setAnimation(fromUp);
         ctnfo = view.findViewById(R.id.cntfollowers);
+        ctnfo.setAnimation(fromUp);
         nombre = view.findViewById(R.id.love_music);
+        nombre.setAnimation(fromLeft);
         foto = view.findViewById(R.id.backdrop);
+        foto.setAnimation(fromUp);
         editProfile = view.findViewById(R.id.edit_profile_button);
+        editProfile.setAnimation(fromLeft);
         portada = view.findViewById(R.id.portada);
-        // img=usuariox.getUsuario();
+        portada.setAnimation(fromDown);
         nombre.setText("Mario Herrera");//(usuariox.getUsuario());
         ctnp.setText(10 + "");//(String.valueOf(usuariox.getCntFotos()));
         ctnf.setText(20 + "");//(String.valueOf(usuariox.getCntFollowing()));
         ctnfo.setText(15 + "");//(String.valueOf(usuariox.getCntFollowers()));
         signout = view.findViewById(R.id.profile_signout);
-
-        ctnp.setText(10+"");//(String.valueOf(usuariox.getCntFotos()));
-        ctnf.setText(20+"");//(String.valueOf(usuariox.getCntFollowing()));
-        ctnfo.setText(15+"");//(String.valueOf(usuariox.getCntFollowers()));
-        signout=view.findViewById(R.id.profile_signout);
-        dashboard=view.findViewById(R.id.settings_button);
-
+        signout.setAnimation(fromRight);
+        ctnp.setText(10 + "");//(String.valueOf(usuariox.getCntFotos()));
+        ctnf.setText(20 + "");//(String.valueOf(usuariox.getCntFollowing()));
+        ctnfo.setText(15 + "");//(String.valueOf(usuariox.getCntFollowers()));
+        signout = view.findViewById(R.id.profile_signout);
+        dashboard = view.findViewById(R.id.settings_button);
+        dashboard.setAnimation(fromRight);
         dashboard.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(),PieActivity.class));
-                /*Intent intent2;
-                intent2 = new Intent(getContext(), MainActivity.class);
-                startActivity(intent2);*/
+                Transition t=new Explode();
+                t.setDuration(1000);
+                t.setInterpolator(new DecelerateInterpolator());
+                getActivity().getWindow().setExitTransition(t);
+                startActivity(new Intent(getContext(), PieActivity.class), ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()).toBundle());
+
             }
         });
 
@@ -150,12 +176,18 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getContext(), LoginActivity.class));
+                Transition t=new Fade();
+                t.setDuration(1000);
+                t.setInterpolator(new DecelerateInterpolator());
+                getActivity().getWindow().setExitTransition(t);
+                startActivity(new Intent(getContext(), LoginActivity.class) ,ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()).toBundle());
+
 
             }
         });
         Glide.with(getContext()).load("https://firebasestorage.googleapis.com/v0/b/funnypetsandroid.appspot.com/o/foto_perfil%2F20881853_1749211925092389_4384820394433587108_n.jpg?alt=media&token=af5e99fd-6936-4c7c-8463-0f2096560e29").fitCenter().centerCrop().into(foto);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView.setAnimation(fromDown);
         posts = new ArrayList<>();
         adapter = new PhotosAdapter(getContext(), posts);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
@@ -191,9 +223,9 @@ public class ProfileFragment extends Fragment {
                 //ctnp.setText(String.valueOf(ux.getCntFotos()));//(String.valueOf(usuariox.getCntFotos()));
                 ctnf.setText(String.valueOf(ux.getCntFollowing()));//(String.valueOf(usuariox.getCntFollowing()));
                 ctnfo.setText(String.valueOf(ux.getCntFollowers()));
-                if(ux.getUrlfoto()==null){
+                if (ux.getUrlfoto() == null) {
                     foto.setImageResource(R.drawable.sinperfil);
-                }else{
+                } else {
                     Glide.with(getContext()).load(ux.getUrlfoto()).fitCenter().centerCrop().into(foto);
                 }
 
@@ -294,7 +326,7 @@ public class ProfileFragment extends Fragment {
 
         Log.d("post", "show data size: " + posts.size());
         ctnp.setText(String.valueOf(posts.size()));
-        if(posts.size()>0) {
+        if (posts.size() > 0) {
             Glide.with(getContext()).load(posts.get(0).getUrlphotopost()).fitCenter().centerCrop().into(portada);
         }
 
