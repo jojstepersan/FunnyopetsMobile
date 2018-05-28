@@ -49,7 +49,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             holder.imagenPerfil.setImageResource(R.drawable.sinperfil);
         }else{
             Glide.with(mContext).load(usuarios.get(position).getUrlfoto()).fitCenter().centerCrop().into(holder.imagenPerfil);
-        }
+
+            }
 
 
         holder.elementView.setOnClickListener(new View.OnClickListener() {

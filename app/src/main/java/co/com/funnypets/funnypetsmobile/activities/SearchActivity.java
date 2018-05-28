@@ -2,6 +2,7 @@ package co.com.funnypets.funnypetsmobile.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.google.android.flexbox.FlexDirection;
@@ -16,10 +17,8 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         RecyclerView recyclerView = (RecyclerView) this.findViewById(R.id.recyclerview);
-        FlexboxLayoutManager layoutManager;
-        layoutManager = new FlexboxLayoutManager(this);
-        layoutManager.setFlexDirection(FlexDirection.COLUMN);
-        layoutManager.setJustifyContent(JustifyContent.FLEX_END);
+        LinearLayoutManager layoutManager;
+        layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
     }
 }
