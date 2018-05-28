@@ -7,15 +7,33 @@
     android:orientation="vertical"
     tools:context="co.com.funnypets.funnypetsmobile.activities.MainActivity">
 
-    <FrameLayout
+    <LinearLayout
+android:orientation="horizontal"
 
-        android:id="@+id/main_fragment"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        tools:layout="@layout/fragment_post"
+
         >
-    </FrameLayout>
+        <fragment
+
+            android:id="@+id/main_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_post">
+
+        </fragment>
+
+        <fragment
+            android:id="@+id/detail_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </fragment>
+    </LinearLayout>
+
+
+
 
 
     <include layout="@layout/layout_bottom_navigation_view" />
