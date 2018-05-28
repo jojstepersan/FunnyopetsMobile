@@ -53,6 +53,7 @@
                    android:layout_height="wrap_content"
                    android:orientation="vertical">
             <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/logo_fp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/logofunnypets2"
@@ -155,6 +156,7 @@
 
 
     <LinearLayout
+        android:id="@+id/redes_sociales"
         android:layout_margin="30dp"
         android:layout_width="match_parent"
         android:layout_height="100dp"
